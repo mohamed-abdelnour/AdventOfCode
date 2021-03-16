@@ -14,8 +14,7 @@
 implementation detailed on [Rosetta Code] [(linked here)][1] and the one
 provided by the [arithmoi] package [(linked here)][2].
 - This implementation of the discrete logarithm algorithm is a port of the
-one detailed on [CP-Algorithms] \
-[(linked here)][3].
+one detailed on [CP-Algorithms] [(linked here)][3].
 
 ## Dependencies
 

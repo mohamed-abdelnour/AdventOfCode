@@ -30,8 +30,7 @@ For a given day, if the solution to that day's puzzle has dependencies other
 than base, they will be specified in that day's README.
 
 Solving these problems was how I started learning Haskell, so for the sake of 
-simplicity I chose not to use \
-[cabal-install] or [stack].
+simplicity I chose not to use [cabal-install] or [stack].
 
 It is likely for these dependencies to be available through your package
 manager. There are all available in the standard [Arch] repositories and the
