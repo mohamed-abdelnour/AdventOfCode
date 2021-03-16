@@ -1,5 +1,3 @@
 cradle:
   direct:
-    arguments:
-        - Comprehension
-        - Recurrence
+    arguments: []
