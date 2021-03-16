@@ -1,6 +1,6 @@
 cradle:
   direct:
     arguments:
-        - Modular
-        - ModularArithmetic
-        - Naive
+      - Modular
+      - ModularArithmetic
+      - Naive
