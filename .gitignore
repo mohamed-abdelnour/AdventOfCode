@@ -1,5 +1,7 @@
 *.hi
 *.o
+.stack-work/
 Archived/
-Testing/
 Main
+Testing/
+target/
