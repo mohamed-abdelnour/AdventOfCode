@@ -3,8 +3,8 @@
 ## Table of Contents
 
 - [Expected Results](#expected-results)
-    + [Puzzle Input](#puzzle-input)
-    + [Sample](#sample)
+  - [Puzzle Input](#puzzle-input)
+  - [Sample](#sample)
 
 ## Expected Results
 
