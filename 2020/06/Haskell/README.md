@@ -3,16 +3,16 @@
 ## Table of Contents
 
 - [Expected Results](#expected-results)
-    + [Puzzle Input](#puzzle-input)
-    + [Sample](#sample)
+  - [Puzzle Input](#puzzle-input)
+  - [Sample](#sample)
 
 ## Expected Results
 
 ### Puzzle Input
 
 ```console
-$ ./Main input.txt
-File: input.txt
+$ stack exec -- Main ../input.txt
+File: ../input.txt
   Part 1: 6799
   Part 2: 3354
 ```
@@ -20,8 +20,8 @@ File: input.txt
 ### Sample
 
 ```console
-$ ./Main sample.txt
-File: sample.txt
+$ stack exec -- Main ../sample.txt
+File: ../sample.txt
   Part 1: 11
   Part 2: 6
 ```
