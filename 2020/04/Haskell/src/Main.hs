@@ -88,8 +88,8 @@ output :: String -> IO ()
 output path = do
   input <- lines <$> readFile path
   printf "File: %s\n" path
-  printf "  Part 1:  %d\n" . part1 . passports $ input
-  printf "  Part 2:  %d\n" . part2 . passports $ input
+  printf "  Part 1: %d\n" . part1 . passports $ input
+  printf "  Part 2: %d\n" . part2 . passports $ input
 
 main :: IO ()
 main = getArgs >>= mapM_ output

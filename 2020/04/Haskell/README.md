@@ -13,8 +13,8 @@
 ```console
 $ stack exec -- Main ../input.txt
 File: ../input.txt
-  Part 1:  204
-  Part 2:  179
+  Part 1: 204
+  Part 2: 179
 ```
 
 ### Samples
