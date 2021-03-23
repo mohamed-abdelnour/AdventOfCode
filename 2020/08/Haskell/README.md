@@ -2,22 +2,17 @@
 
 ## Table of Contents
 
-- [Dependencies](#dependencies)
 - [Expected Results](#expected-results)
-    + [Puzzle Input](#puzzle-input)
-    + [Sample](#sample)
-
-## Dependencies
-
-- [vector]
+  - [Puzzle Input](#puzzle-input)
+  - [Sample](#sample)
 
 ## Expected Results
 
 ### Puzzle Input
 
 ```console
-$ ./Main input.txt
-File: input.txt
+$ stack exec -- Main ../input.txt
+File: ../input.txt
   Part 1: 1317
   Part 2: 1033
 ```
@@ -25,10 +20,8 @@ File: input.txt
 ### Sample
 
 ```console
-$ ./Main sample.txt
-File: sample.txt
+$ stack exec -- Main ../sample.txt
+File: ../sample.txt
   Part 1: 5
   Part 2: 8
 ```
-
-[vector]: https://hackage.haskell.org/package/vector
