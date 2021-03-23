@@ -35,8 +35,8 @@ output :: String -> IO ()
 output path = do
   input <- filter (not . null) . lines <$> readFile path
   printf "File: %s\n" path
-  printf "  Part 1:  %d\n" . maximum . map part1 $ input
-  printf "  Part 2:  %d\n" . part2 $ input
+  printf "  Part 1: %d\n" . maximum . map part1 $ input
+  printf "  Part 2: %d\n" . part2 $ input
 
 main :: IO ()
 main = getArgs >>= mapM_ output
