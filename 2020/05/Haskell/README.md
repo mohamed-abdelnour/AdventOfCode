@@ -3,16 +3,16 @@
 ## Table of Contents
 
 - [Expected Results](#expected-results)
-    + [Puzzle Input](#puzzle-input)
-    + [Samples](#samples)
+  - [Puzzle Input](#puzzle-input)
+  - [Samples](#samples)
 
 ## Expected Results
 
 ### Puzzle Input
 
 ```console
-$ ./Main input.txt
-File: input.txt
+$ stack exec -- Main ../input.txt
+File: ../input.txt
   Part 1:  994
   Part 2:  741
 ```
@@ -20,7 +20,7 @@ File: input.txt
 ### Samples
 
 ```console
-$ ghci Main.hs
-λ> map part1 . filter (not . null) . lines <$> readFile "samples.txt"
+$ stack ghci
+λ> map part1 . filter (not . null) . lines <$> readFile "../samples.txt"
 [357,567,119,820]
 ```
