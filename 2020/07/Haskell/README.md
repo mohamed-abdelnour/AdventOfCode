@@ -3,16 +3,16 @@
 ## Table of Contents
 
 - [Expected Results](#expected-results)
-    + [Puzzle Input](#puzzle-input)
-    + [Samples](#samples)
+  - [Puzzle Input](#puzzle-input)
+  - [Samples](#samples)
 
 ## Expected Results
 
 ### Puzzle Input
 
 ```console
-$ ./Main input.txt
-File: input.txt
+$ stack exec -- Main ../input.txt
+File: ../input.txt
   Part 1: 131
   Part 2: 11261
 ```
@@ -20,14 +20,14 @@ File: input.txt
 ### Samples
 
 ```console
-$ ./Main sample1.txt
-File: sample1.txt
+$ stack exec -- Main ../sample1.txt
+File: ../sample1.txt
   Part 1: 4
   Part 2: 32
 ```
 
 ```console
-$ ghci Main.hs
-λ> part2 . lines <$> readFile "sample2.txt"
+$ stack ghci
+λ> part2 . lines <$> readFile "../sample2.txt"
 126
 ```
