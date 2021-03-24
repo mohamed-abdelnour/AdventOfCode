@@ -12,12 +12,7 @@ fn cruft(word: &str) -> bool {
 }
 
 fn num(word: &str) -> bool {
-    for c in word.chars() {
-        if !('0'..='9').contains(&c) {
-            return false;
-        }
-    }
-    true
+    word.chars().all(|x| ('0'..='9').contains(&x))
 }
 
 fn parse_line(line: &str) -> Vec<String> {
