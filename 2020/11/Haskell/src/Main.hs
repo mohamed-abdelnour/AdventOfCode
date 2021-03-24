@@ -88,7 +88,7 @@ stepMap g0 g n (p : ps)
 
 cycleMap :: Grid -> Int -> [Point] -> Grid
 cycleMap g n p | g' == g   = g
-                 | otherwise = cycleMap g' n p
+               | otherwise = cycleMap g' n p
   where g' = stepMap g g n p
 
 solve :: Int -> [String] -> Int
