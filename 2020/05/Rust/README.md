@@ -11,7 +11,7 @@
 ### Puzzle Input
 
 ```console
-$ cargo run -q --release ../input.txt
+$ cargo run -q --release -- ../input.txt
 File: ../input.txt
   Part 1: 994
   Part 2: 741
