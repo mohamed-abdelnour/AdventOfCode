@@ -20,7 +20,7 @@ File: ../input.txt
 ### Samples
 
 ```console
-$ stack ghci
+$ stack exec -- ghci src/Main.hs
 λ> map part1 . filter (not . null) . lines <$> readFile "../samples.txt"
 [357,567,119,820]
 ```

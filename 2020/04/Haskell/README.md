@@ -20,7 +20,7 @@ File: ../input.txt
 ### Samples
 
 ```console
-$ stack ghci
+$ stack exec -- ghci src/Main.hs
 λ> part1 . passports . lines <$> readFile "../sample.txt"
 2
 λ> part2 . passports . lines <$> readFile "../invalid.txt"
