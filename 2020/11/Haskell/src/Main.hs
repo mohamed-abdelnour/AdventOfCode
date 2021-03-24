@@ -86,9 +86,9 @@ stepMap g0 g n (p : ps)
   occupied = length . filter ((== '#') . (`getSeat` g0)) . seatFunction g $ p
   insert x = updatePoint p x g
 
-cycleMap :: Grid -> Bounds -> Int -> [Point] -> Grid
-cycleMap g b n p | g' == g   = g
-                 | otherwise = cycleMap g' b n p
+cycleMap :: Grid -> Int -> [Point] -> Grid
+cycleMap g n p | g' == g   = g
+                 | otherwise = cycleMap g' n p
   where g' = stepMap g g n p
 
 solve :: Int -> [String] -> Int
@@ -97,7 +97,7 @@ solve n x = length . V.concatMap (V.filter (== '#')) $ grid'
   grid      = gridInit x
   (r, c)    = getBounds grid
   positions = [ (a, b) | a <- [0 .. r], b <- [0 .. c] ]
-  grid'     = cycleMap grid (r, c) n positions
+  grid'     = cycleMap grid n positions
 
 output :: String -> IO ()
 output path = do
