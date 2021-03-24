@@ -6,10 +6,6 @@
   - [Puzzle Input](#puzzle-input)
   - [Sample](#sample)
 
-## Dependencies
-
-- [vector]
-
 ## Expected Results
 
 ### Puzzle Input
