@@ -101,7 +101,7 @@ fn count_children(input: &[Vec<String>], line: &[String]) -> usize {
     if input.is_empty() && line.is_empty() {
         return 0;
     }
-    let mut quantities = line
+    let quantities = line
         .iter()
         .filter(|x| num(x))
         .map(|y| y.parse::<usize>().unwrap())
@@ -112,9 +112,8 @@ fn count_children(input: &[Vec<String>], line: &[String]) -> usize {
         .map(|x| count_children(input, &find_line(input, x)))
         .collect::<Vec<_>>();
     let count = quantities.iter().zip(next).collect::<Vec<_>>();
-    let mut count = count.iter().map(|(a, b)| *a * b).collect::<Vec<_>>();
-    count.append(&mut quantities);
-    count.iter().sum::<usize>()
+    let count = count.iter().fold(0, |acc, (a, b)| acc + *a * b);
+    count + quantities.iter().sum::<usize>()
 }
 
 fn part_1(input: &[Vec<String>]) -> usize {
