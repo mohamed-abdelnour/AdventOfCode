@@ -3,5 +3,11 @@ cradle:
     - path: "./src/Main.hs"
       component: "Main:exe:Main"
 
+    - path: "./src/Part1.hs"
+      component: "Main:exe:Main"
+
+    - path: "./src/Part2.hs"
+      component: "Main:exe:Main"
+
     - path: "./src/Paths_Main.hs"
       component: "Main:exe:Main"
