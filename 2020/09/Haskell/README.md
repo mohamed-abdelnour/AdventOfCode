@@ -20,7 +20,7 @@ File: ../input.txt
 ### Sample
 
 ```console
-$ stack exec -- ghci src/Main.hs
+$ stack ghci
 λ> part1 5 . filter (not . null) . lines <$> readFile "../sample.txt"
 127
 λ> part2 5 . filter (not . null) . lines <$> readFile "../sample.txt"

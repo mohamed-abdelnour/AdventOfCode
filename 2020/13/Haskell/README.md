@@ -27,7 +27,7 @@ File: ../sample1.txt
 ```
 
 ```console
-$ stack exec -- ghci src/Main.hs
+$ stack ghci
 λ> prep x = [['0'], x]
 λ> solve = getRemainder . baseTimes 0 . snd . parseInput "," . prep
 λ> map solve . lines <$> readFile "../samples.txt"

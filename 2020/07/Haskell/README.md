@@ -27,7 +27,7 @@ File: ../sample1.txt
 ```
 
 ```console
-$ stack exec -- ghci src/Main.hs
+$ stack ghci
 λ> part2 . lines <$> readFile "../sample2.txt"
 126
 ```
