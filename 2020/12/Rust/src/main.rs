@@ -3,12 +3,12 @@ use std::fs;
 
 #[derive(Debug)]
 struct Action {
-    dir: String,
+    dir: char,
     num: i32,
 }
 
 impl Action {
-    fn gen(d: String, n: i32) -> Action {
+    fn gen(d: char, n: i32) -> Action {
         Action { dir: d, num: n }
     }
 }
@@ -39,27 +39,26 @@ fn parse_input(input: &str) -> Vec<Action> {
     input
         .iter()
         .map(|x| {
-            let d = x.chars().take(1).collect::<String>();
+            let d = x.chars().take(1).collect::<Vec<_>>();
             let n = x.chars().skip(1).collect::<String>();
             Action {
-                dir: d,
+                dir: d[0],
                 num: n.parse::<i32>().unwrap(),
             }
         })
         .collect()
 }
 
-fn next_dir(r: i32) -> String {
+fn next_dir(r: i32) -> char {
     let r = r.rem_euclid(360);
-    let builder = |x| String::from(x);
     if r == 0 {
-        return builder("E");
+        return 'E';
     } else if r == 90 {
-        return builder("N");
+        return 'N';
     } else if r == 180 {
-        return builder("W");
+        return 'W';
     }
-    builder("S")
+    'S'
 }
 
 fn move_entity(position: &Position, action: &Action) -> Position {
@@ -67,20 +66,20 @@ fn move_entity(position: &Position, action: &Action) -> Position {
     let py = position.y;
     let pr = position.r;
 
-    let k = &action.dir;
+    let k = action.dir;
     let v = action.num;
 
-    if k == "N" {
+    if k == 'N' {
         return Position::gen(px, py + v, pr);
-    } else if k == "S" {
+    } else if k == 'S' {
         return Position::gen(px, py - v, pr);
-    } else if k == "E" {
+    } else if k == 'E' {
         return Position::gen(px + v, py, pr);
-    } else if k == "W" {
+    } else if k == 'W' {
         return Position::gen(px - v, py, pr);
-    } else if k == "L" {
+    } else if k == 'L' {
         return Position::gen(px, py, pr + v);
-    } else if k == "R" {
+    } else if k == 'R' {
         return Position::gen(px, py, pr - v);
     }
 
@@ -89,12 +88,12 @@ fn move_entity(position: &Position, action: &Action) -> Position {
     move_entity(position, &next)
 }
 
-fn next_entity(v: i32, px: i32, py: i32, dir: &str) -> (i32, i32) {
+fn next_entity(v: i32, px: i32, py: i32, dir: char) -> (i32, i32) {
     let v = v.rem_euclid(360);
 
     let negate = |x: (i32, i32)| (-x.0, -x.1);
-    let transform = |k: &str, x: (i32, i32)| {
-        if k == "R" {
+    let transform = |k: char, x: (i32, i32)| {
+        if k == 'R' {
             x
         } else {
             negate(x)
@@ -118,12 +117,12 @@ fn move_waypoint(position: &Position, action: &Action) -> Position {
     let py = position.y;
     let pr = position.r;
 
-    let k = &action.dir;
+    let k = action.dir;
     let v = action.num;
 
     let (x, y) = next_entity(v, px, py, k);
 
-    if (k == "R") || (k == "L") {
+    if (k == 'R') || (k == 'L') {
         return Position::gen(x, y, pr + v);
     }
 
@@ -157,9 +156,9 @@ fn step_waypoint(mut positions: Vec<Position>, actions: &[Action]) -> Position {
     for action in actions {
         let ship = positions[0];
         let waypoint = positions[1];
-        let k = &action.dir;
+        let k = action.dir;
         let v = action.num;
-        if k != "F" {
+        if k != 'F' {
             positions = vec![ship, move_waypoint(&waypoint, action)];
         } else {
             positions = ship_to_waypoint(&positions, v);
