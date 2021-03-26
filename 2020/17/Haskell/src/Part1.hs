@@ -29,7 +29,7 @@ getUniqueNeighbours :: [Point] -> [Point]
 getUniqueNeighbours = map head . group . sort . concatMap getNeighbours
 
 countActiveNeighbours :: Cube -> [Point] -> Int
-countActiveNeighbours c = length . filter (== '#') . map (`cubeLookup` c)
+countActiveNeighbours c = length . filter ((== '#') . (`cubeLookup` c))
 
 stepCube :: Cube -> Cube -> [Point] -> Cube
 stepCube _  c []       = c

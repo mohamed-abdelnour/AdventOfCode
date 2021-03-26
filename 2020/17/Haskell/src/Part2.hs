@@ -36,7 +36,7 @@ getUniqueNeighbours :: [Point] -> [Point]
 getUniqueNeighbours = map head . group . sort . concatMap getNeighbours
 
 countActiveNeighbours :: HyperCube -> [Point] -> Int
-countActiveNeighbours c = length . filter (== '#') . map (`hyperCubeLookup` c)
+countActiveNeighbours c = length . filter ((== '#') . (`hyperCubeLookup` c))
 
 stepHyperCube :: HyperCube -> HyperCube -> [Point] -> HyperCube
 stepHyperCube _  c []       = c
