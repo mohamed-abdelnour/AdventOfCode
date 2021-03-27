@@ -125,19 +125,22 @@ where
 }
 
 fn rpn(tokens: &[&String]) -> u64 {
-    let mut numbers = Vec::new();
-    for token in tokens {
-        if let Ok(number) = token.parse::<u64>() {
-            numbers.push(number);
-        } else if token == &"+" {
-            let next = numbers.pop().unwrap() + numbers.pop().unwrap();
-            numbers.push(next);
-        } else if token == &"*" {
-            let next = numbers.pop().unwrap() * numbers.pop().unwrap();
-            numbers.push(next);
+    let eval = |mut acc: Vec<u64>, x: &String| {
+        if (acc.len() > 1) && is_operator(x) {
+            let a = acc.pop().unwrap();
+            let b = acc.pop().unwrap();
+            if x == "+" {
+                acc.push(a + b);
+            } else if x == "*" {
+                acc.push(a * b);
+            }
+        } else {
+            acc.push(x.parse().unwrap())
         }
-    }
-    numbers[0]
+        acc
+    };
+    let result = tokens.iter().fold(vec![], |acc, x| eval(acc, x));
+    result[0]
 }
 
 fn solve(mode: u64, input: &[Vec<String>]) -> u64 {
