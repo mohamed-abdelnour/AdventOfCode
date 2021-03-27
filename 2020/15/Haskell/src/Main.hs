@@ -35,7 +35,7 @@ solve i n = MV.replicate i (0, 0) >>= initGame n >>= stepGame (i + 1) offset n0
 
 output :: String -> IO ()
 output path = do
-  input <- map parseInput . lines <$> readFile path
+  input <- map parseInput . filter (not . null) . lines <$> readFile path
   printf "File: %s\n" path
   part1 <- mapM (solve 2020) input
   printf "  Part 1: %s\n" . extract $ part1
