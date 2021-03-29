@@ -53,9 +53,5 @@ fn output(path: &str) {
 }
 
 fn main() {
-    env::args()
-        .skip(1)
-        .collect::<Vec<_>>()
-        .iter()
-        .for_each(|x| output(x));
+    env::args().skip(1).for_each(|x| output(&x));
 }

@@ -1,8 +1,8 @@
 mod part_1;
 mod part_2;
 
-use crate::part_2 as P2;
 use crate::part_1 as P1;
+use crate::part_2 as P2;
 
 use std::env;
 use std::fs;
@@ -55,9 +55,5 @@ fn output(path: &str) {
 }
 
 fn main() {
-    env::args()
-        .skip(1)
-        .collect::<Vec<_>>()
-        .iter()
-        .for_each(|x| output(x));
+    env::args().skip(1).for_each(|x| output(&x));
 }
