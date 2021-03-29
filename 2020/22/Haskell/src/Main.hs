@@ -1,5 +1,5 @@
-import           Data.HashMap.Strict            ( HashMap )
-import qualified Data.HashMap.Strict           as HM
+import           Data.HashSet                   ( HashSet )
+import qualified Data.HashSet                  as HS
 import           System.Environment
 import           Text.Printf
 
@@ -23,21 +23,20 @@ combat (a : as, x : xs) = combat (as', xs')
              | x > a     = (as, xs ++ [x] ++ [a])
              | otherwise = error "Equal cards"
 
-recursiveCombat
-  :: HashMap ([Int], [Int]) Bool -> ([Int], [Int]) -> (Int, [Int])
+recursiveCombat :: HashSet ([Int], [Int]) -> ([Int], [Int]) -> (Int, [Int])
 recursiveCombat _ (w , []) = (1, w)
 recursiveCombat _ ([], w ) = (2, w)
 recursiveCombat r (b@(a : as), y@(x : xs))
-  | HM.member (b, y) r = (1, b)
+  | HS.member (b, y) r = (1, b)
   | otherwise          = recursiveCombat r' (as', xs')
  where
-  r' = HM.insert (b, y) True r
+  r' = HS.insert (b, y) r
   w' | a > x     = 1
      | x > a     = 2
      | otherwise = error "Equal cards"
   w
     | length as >= a && length xs >= x
-    = fst . recursiveCombat HM.empty $ (take a as, take x xs)
+    = fst . recursiveCombat HS.empty $ (take a as, take x xs)
     | otherwise
     = w'
   (as', xs') | w == 1    = (as ++ [a] ++ [x], xs)
@@ -51,7 +50,7 @@ output path = do
   input <- lines <$> readFile path
   printf "File: %s\n" path
   printf "  Part 1: %d\n" . solve combat $ input
-  printf "  Part 2: %d\n" . solve (snd . recursiveCombat HM.empty) $ input
+  printf "  Part 2: %d\n" . solve (snd . recursiveCombat HS.empty) $ input
 
 main :: IO ()
 main = getArgs >>= mapM_ output
