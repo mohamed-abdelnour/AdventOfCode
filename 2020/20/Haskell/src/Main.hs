@@ -58,18 +58,25 @@ matchCount :: Char -> Tile -> [Tile] -> Int
 matchCount d v vs = length $ checkMatch d v vs
 
 checkAltMatches
-  :: (Tile -> [Tile] -> Int) -> [TileID] -> AltTileSet -> [(TileID, [Int])]
-checkAltMatches _ []       _ = []
-checkAltMatches f [-1    ] t = checkAltMatches f (HM.keys t) t
-checkAltMatches f (x : xs) t = (x, matches) : checkAltMatches f xs t
+  :: (Tile -> [Tile] -> Int)
+  -> [TileID]
+  -> TileSet
+  -> AltTileSet
+  -> [(TileID, [Int])]
+checkAltMatches _ []   _     _   = []
+checkAltMatches f [-1] tiles alt = checkAltMatches f (HM.keys tiles) tiles alt
+checkAltMatches f (x : xs) tiles alt =
+  (x, matches) : checkAltMatches f xs tiles alt
  where
-  v       = HM.findWithDefault [] x t
-  vs      = concat . HM.elems . HM.delete x $ t
+  v       = HM.findWithDefault [] x alt
+  vs      = HM.elems . HM.delete x $ tiles
   matches = map (`f` vs) v
 
-getCorners :: AltTileSet -> [TileID]
-getCorners =
-  map fst . filter (all (== 2) . snd) . checkAltMatches (matchCount 'A') [-1]
+getCorners :: TileSet -> AltTileSet -> [TileID]
+getCorners tiles =
+  map fst
+    . filter ((== 2) . sum . snd)
+    . checkAltMatches (matchCount 'A') [-1] tiles
 
 topLeftHelper :: [Tile] -> [Tile] -> Tile
 topLeftHelper [] _ = []
@@ -147,14 +154,9 @@ findMonsters x | length x < length monster = 0
   (a : b : c : ds) = x
   count            = findMonsterHelper [a, b, c]
 
-part1 :: [String] -> Int
-part1 = product . getCorners . initAltTiles . initInput
-
-part2 :: [String] -> Int
-part2 x = countGrid - number * countMonster
+part2 :: [TileID] -> AltTileSet -> Int
+part2 corners altTiles = countGrid - number * countMonster
  where
-  altTiles     = initAltTiles . initInput $ x
-  corners      = getCorners altTiles
   (k, v)       = initTopLeft altTiles . head $ corners
   remaining    = HM.delete k altTiles
   rows         = generateRows [] v remaining
@@ -169,9 +171,12 @@ part2 x = countGrid - number * countMonster
 output :: String -> IO ()
 output path = do
   input <- lines <$> readFile path
+  let tiles    = initInput input
+  let altTiles = initAltTiles tiles
+  let corners  = getCorners tiles altTiles
   printf "File: %s\n" path
-  printf "  Part 1: %d\n" . part1 $ input
-  printf "  Part 2: %d\n" . part2 $ input
+  printf "  Part 1: %d\n" . product $ corners
+  printf "  Part 2: %d\n" . part2 corners $ altTiles
 
 main :: IO ()
 main = getArgs >>= mapM_ output
