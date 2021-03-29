@@ -118,8 +118,8 @@ where
             }
         }
     }
-    for operator in operators.iter().rev() {
-        result.push(operator);
+    while !operators.is_empty() {
+        result.push(operators.pop().unwrap());
     }
     result
 }
