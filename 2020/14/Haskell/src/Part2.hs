@@ -6,7 +6,7 @@ import qualified Data.HashMap.Strict           as HM
 type Memory = HashMap Int Int
 
 parseMap :: String -> [Int]
-parseMap = map fst . filter (\x -> snd x == '1') . zip [0 ..] . reverse
+parseMap = map fst . filter ((== '1') . snd) . zip [0 ..] . reverse
 
 binToDec :: String -> Int
 binToDec = sum . map (2 ^) . parseMap
