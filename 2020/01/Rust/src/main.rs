@@ -25,8 +25,8 @@ fn two_sum_n(n: i32, xs: &[i32]) -> Option<Vec<i32>> {
 
 fn three_sum_n(n: i32, xs: &[i32]) -> Option<Vec<i32>> {
     let mut ys = xs.to_owned();
-    for x in xs {
-        ys.remove(0);
+    for x in xs.iter().rev() {
+        ys.pop();
         if let Some(mut result) = two_sum_n(n - x, &ys) {
             result.push(*x);
             return Some(result);
