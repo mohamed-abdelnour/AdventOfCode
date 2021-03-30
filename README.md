@@ -1,12 +1,17 @@
-## Solutions to the [Advent of Code](https://adventofcode.com/)
+# Solutions to the [Advent of Code][aoc]
 
-### Learn more
+## Learn more
 
-- [About](https://adventofcode.com/2020/about)
-- [Eric Wastl](http://was.tl/), the creator of the Advent of Code
+- [About][aoc-about]
+- [Eric Wastl][eric-wastl], the creator of the Advent of Code
 
-### Completed
+## Completed
 
-- [2020][AoC2020]
+- [2020][aoc2020]
+  - Haskell
+  - Rust
 
-[AoC2020]: https://adventofcode.com/2020/
+[aoc]: https://adventofcode.com/
+[aoc-about]: https://adventofcode.com/2020/about
+[eric-wastl]: http://was.tl/
+[aoc2020]: https://adventofcode.com/2020/
