@@ -1,0 +1,16 @@
+cradle:
+  stack:
+    - path: "./src/Main.hs"
+      component: "Main:exe:Main"
+
+    - path: "./src/Modular.hs"
+      component: "Main:exe:Main"
+
+    - path: "./src/ModularArithmetic.hs"
+      component: "Main:exe:Main"
+
+    - path: "./src/Naive.hs"
+      component: "Main:exe:Main"
+
+    - path: "./src/Paths_Main.hs"
+      component: "Main:exe:Main"

@@ -1,0 +1,16 @@
+name: Main
+version: 0.1.0.0
+
+dependencies:
+  - base >= 4.7 && < 5
+  - unordered-containers
+
+executable:
+  main: Main.hs
+  source-dirs: src
+  ghc-options:
+    - -O2
+    - -Wall
+    - -rtsopts
+    - -threaded
+    - -with-rtsopts=-N
