@@ -5,8 +5,13 @@ import           System.Environment
 import           Text.Printf
 
 type Point = (Int, Int)
-type Tile = Bool -- (False -> White, True -> Black)
 type TileGrid = HashMap Point Tile
+
+data Tile = Black | White deriving Eq
+
+flipTile :: Tile -> Tile
+flipTile Black = White
+flipTile White = Black
 
 parseLine :: String -> [String]
 parseLine []          = []
@@ -35,8 +40,8 @@ stepInput t (x  : xs) = stepInput t' xs
  where
   parsed = parseLine x
   tile   = findTile (0, 0) parsed
-  value  = HM.findWithDefault False tile t
-  t'     = HM.insert tile (not value) t
+  value  = HM.findWithDefault White tile t
+  t'     = HM.insert tile (flipTile value) t
 
 getAdjacent :: Point -> [Point]
 getAdjacent (x, y) = diagonals ++ line
@@ -48,12 +53,12 @@ getAdjacent (x, y) = diagonals ++ line
 nextTile :: Point -> TileGrid -> Tile
 nextTile p t = tile
  where
-  value    = HM.findWithDefault False p t
+  value    = HM.findWithDefault White p t
   adjacent = getAdjacent p
-  count    = length . filter (\x -> HM.findWithDefault False x t) $ adjacent
-  tile | not value && count == 2            = True
-       | value && (count == 0 || count > 2) = False
-       | otherwise                          = value
+  count    = length . filter (\x -> HM.lookup x t == Just Black) $ adjacent
+  tile | value == White && count == 2 = Black
+       | value == Black && (count == 0 || count > 2) = White
+       | otherwise                    = value
 
 updateTiles :: TileGrid -> [Point] -> TileGrid -> TileGrid
 updateTiles t [] t0 | HM.null t = updateTiles t (HM.keys t0) t0
@@ -67,7 +72,7 @@ cycleTiles :: Int -> Int -> TileGrid -> TileGrid
 cycleTiles i0 i t | i == i0   = t
                   | otherwise = cycleTiles i0 (i + 1) next
  where
-  keys = HM.keys . HM.filter (== True) $ t
+  keys = HM.keys . HM.filter (== Black) $ t
   notIncluded =
     map head
       . group
@@ -75,16 +80,16 @@ cycleTiles i0 i t | i == i0   = t
       . filter (not . (`HM.member` t))
       . concatMap getAdjacent
       $ keys
-  n    = HM.fromList . zip notIncluded $ repeat False
+  n    = HM.fromList . zip notIncluded $ repeat White
   t'   = HM.union t n
   next = updateTiles HM.empty [] t'
 
 part1 :: [String] -> Int
-part1 = length . filter (== True) . HM.elems . stepInput HM.empty
+part1 = length . filter (== Black) . HM.elems . stepInput HM.empty
 
 part2 :: [String] -> Int
 part2 =
-  length . filter (== True) . HM.elems . cycleTiles 100 0 . stepInput HM.empty
+  length . filter (== Black) . HM.elems . cycleTiles 100 0 . stepInput HM.empty
 
 output :: String -> IO ()
 output path = do
