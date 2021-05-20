@@ -56,7 +56,7 @@ fn step_grid(grid: &Grid, points: &HashSet<Point>) -> Grid {
         let cube = grid_lookup(point, grid);
         let neighbours = get_neighbours(point);
         let active = count_active_neighbours(grid, &neighbours);
-        if (cube == '#') && !vec![2, 3].contains(&active) {
+        if (cube == '#') && !(2..=3).contains(&active) {
             next_grid.insert(*point, '.');
         } else if (cube == '.') && (active == 3) {
             next_grid.insert(*point, '#');

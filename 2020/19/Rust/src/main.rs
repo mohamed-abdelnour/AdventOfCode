@@ -100,7 +100,7 @@ fn get_base_regex(regex: &str) -> Vec<String> {
 fn min_regex_length(regex: &str) -> usize {
     let wildcard = regex
         .chars()
-        .map(|x| if vec!['a', 'b'].contains(&x) { '.' } else { x })
+        .map(|x| if ('a'..='b').contains(&x) { '.' } else { x })
         .collect::<String>();
     let wildcard = Regex::new(&wildcard).unwrap();
     for n in 1.. {
