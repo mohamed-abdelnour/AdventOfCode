@@ -1,9 +1,8 @@
-# Solutions to the [Advent of Code 2020][aoc2020] in [Haskell][haskell] and [Rust][]
+# Solutions to the [Advent of Code 2020][aoc2020] in [Haskell][haskell] and [Rust][rust]
 
 ## Table of Contents
 
 - [Prerequisites](#prerequisites)
-- [Miscellaneous Tools](#miscellaneous-tools)
 - [Instructions](#instructions)
 - [Demonstration](#demonstration)
 
@@ -17,38 +16,9 @@
 
 - [Cargo][cargo]
 
-## Miscellaneous Tools
-
-This is a quick overview of my set-up for solving these puzzles.
-
-### General
-
-- Editor
-  - [Neovim][neovim]
-- LSP
-  - [coc.nvim][coc]
-
-### Haskell
-
-- Formatter
-  - [brittany][brittany]
-- Linter
-  - [HLint][hlint]
-- LSP
-  - [Haskell Language Server][hls]
-
-### Rust
-
-- Formatter
-  - [rustfmt][rustfmt]
-- Linter
-  - [Clippy][clippy]
-- LSP
-  - [Rust Language Server][rls]
-
 ## Instructions
 
-The following instructions have been tested on [Linux][linux].
+The following instructions have been tested on GNU/Linux.
 
 ### Haskell
 
@@ -120,12 +90,3 @@ File: ../input.txt
 [rust]: https://www.rust-lang.org/
 [stack]: https://docs.haskellstack.org/
 [cargo]: https://doc.rust-lang.org/stable/cargo/
-[linux]: https://www.linux.org/
-[neovim]: https://github.com/neovim/neovim
-[coc]: https://github.com/neoclide/coc.nvim
-[brittany]: https://github.com/lspitzner/brittany
-[hlint]: https://github.com/ndmitchell/hlint
-[hls]: https://github.com/haskell/haskell-language-server
-[rustfmt]: https://github.com/rust-lang/rustfmt
-[clippy]: https://github.com/rust-lang/rust-clippy
-[rls]: https://github.com/rust-lang/rls
