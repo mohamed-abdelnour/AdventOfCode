@@ -1,6 +1,7 @@
 use std::convert::TryFrom;
 use std::env;
 use std::fs;
+use std::iter::repeat;
 
 type Row = Vec<char>;
 type Grid = Vec<Row>;
@@ -56,110 +57,51 @@ fn get_adjacent(grid: &[Row], point: &Point) -> Vec<Point> {
     adjacent
 }
 
-fn north(point: &Point, grid: &[Row]) -> Vec<Point> {
-    let (px, py) = point;
-    for r in (0..*px).rev() {
-        if get_seat(&(r, *py), grid) != '.' {
-            return vec![(r, *py)];
-        }
-    }
-    vec![]
-}
-
-fn south(point: &Point, max_x: usize, grid: &[Row]) -> Vec<Point> {
-    let (px, py) = point;
-    for r in (px + 1)..=max_x {
-        if get_seat(&(r, *py), grid) != '.' {
-            return vec![(r, *py)];
-        }
-    }
-    vec![]
-}
-
-fn east(point: &Point, max_y: usize, grid: &[Row]) -> Vec<Point> {
-    let (px, py) = point;
-    for c in (py + 1)..=max_y {
-        if get_seat(&(*px, c), grid) != '.' {
-            return vec![(*px, c)];
-        }
-    }
-    vec![]
-}
-
-fn west(point: &Point, grid: &[Row]) -> Vec<Point> {
-    let (px, py) = point;
-    for c in (0..*py).rev() {
-        if get_seat(&(*px, c), grid) != '.' {
-            return vec![(*px, c)];
-        }
-    }
-    vec![]
-}
-
-fn north_west(point: &Point, grid: &[Row]) -> Vec<Point> {
-    let (px, py) = point;
-    for r in (0..*px).rev() {
-        for c in (0..*py).rev() {
-            if ((px - r) == (py - c)) && (get_seat(&(r, c), grid) != '.') {
-                return vec![(r, c)];
-            }
-        }
-    }
-    vec![]
-}
-
-fn south_west(point: &Point, max_x: usize, grid: &[Row]) -> Vec<Point> {
-    let (px, py) = point;
-    for r in (px + 1)..=max_x {
-        for c in (0..*py).rev() {
-            if ((r - px) == (py - c)) && (get_seat(&(r, c), grid) != '.') {
-                return vec![(r, c)];
-            }
-        }
-    }
-    vec![]
-}
-
-fn north_east(point: &Point, max_y: usize, grid: &[Row]) -> Vec<Point> {
-    let (px, py) = point;
-    for r in (0..*px).rev() {
-        for c in (py + 1)..=max_y {
-            if ((px - r) == (c - py)) && (get_seat(&(r, c), grid) != '.') {
-                return vec![(r, c)];
-            }
-        }
-    }
-    vec![]
-}
-
-fn south_east(
-    point: &Point,
-    max_x: usize,
-    max_y: usize,
-    grid: &[Row],
-) -> Vec<Point> {
-    let (px, py) = point;
-    for r in (px + 1)..=max_x {
-        for c in (py + 1)..=max_y {
-            if ((r - px) == (c - py)) && (get_seat(&(r, c), grid) != '.') {
-                return vec![(r, c)];
-            }
-        }
-    }
-    vec![]
+fn first_seat<I>(line: I, grid: &[Row]) -> Option<Point>
+where
+    I: Iterator<Item = Point>,
+{
+    line.skip_while(|p| get_seat(p, grid) == '.').next()
 }
 
 fn get_in_line_of_sight(grid: &[Row], point: &Point) -> Vec<Point> {
     let (max_x, max_y) = get_bounds(grid);
-    let n = north(point, grid);
-    let s = south(point, max_x, grid);
-    let e = east(point, max_y, grid);
-    let w = west(point, grid);
-    let nw = north_west(point, grid);
-    let sw = south_west(point, max_x, grid);
-    let ne = north_east(point, max_y, grid);
-    let se = south_east(point, max_x, max_y, grid);
-    vec![n, s, e, w, nw, sw, ne, se].concat()
+    let (px, py) = point.to_owned();
+
+    macro_rules! fs {
+        ($i:expr) => {
+            first_seat($i, grid)
+        };
+    }
+
+    let n = fs!((0..px).rev().zip(repeat(py)));
+    let s = fs!((px + 1..=max_x).zip(repeat(py)));
+    let e = fs!(repeat(px).zip(py + 1..=max_y));
+    let w = fs!(repeat(px).zip((0..py).rev()));
+
+    let nw = fs!((0..px)
+        .rev()
+        .zip((0..py).rev())
+        .filter(|(r, c)| px - r == py - c));
+
+    let se = fs!((px + 1..=max_x)
+        .zip(py + 1..=max_y)
+        .filter(|(r, c)| r - px == c - py));
+
+    let ne = fs!((0..px)
+        .rev()
+        .zip(py + 1..=max_y)
+        .filter(|(r, c)| px - r == c - py));
+
+    let sw = fs!((px + 1..=max_x)
+        .zip((0..py).rev())
+        .filter(|(r, c)| r - px == py - c));
+
+    vec![n, s, e, w, nw, se, ne, sw]
+        .iter()
+        .filter(|p| p.is_some())
+        .map(|p| p.unwrap())
+        .collect::<Vec<_>>()
 }
 
 fn step_grid(mode: &usize, grid: &[Row], points: &[Point]) -> Grid {
