@@ -43,3 +43,37 @@ macro_rules! define_error {
 }
 
 define_error!(EmptyInputError, "input must not be empty");
+
+/// An error that represents an unsatisfied expectation.
+#[derive(Debug)]
+pub struct Expectation {
+    kind: String,
+    expected: String,
+    got: String,
+}
+
+impl Expectation {
+    /// Returns a new `Expectation`.
+    pub fn new(kind: impl ToString, expected: impl ToString, got: impl ToString) -> Self {
+        let kind = kind.to_string();
+        let expected = expected.to_string();
+        let got = got.to_string();
+        Expectation {
+            kind,
+            expected,
+            got,
+        }
+    }
+}
+
+impl fmt::Display for Expectation {
+    fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
+        write!(
+            f,
+            r#"invalid {}: expected {}, got "{}""#,
+            self.kind, self.expected, self.got
+        )
+    }
+}
+
+impl Error for Expectation {}
