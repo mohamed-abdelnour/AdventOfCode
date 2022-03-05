@@ -7,8 +7,12 @@ use std::{env, fs};
 
 use anyhow::Result;
 
+/// A module providing an interface for binary operations on numbers.
+pub mod binary;
 /// A module providing an interface for dealing with errors.
 pub mod errors;
+/// A module providing an interface for numeric types.
+pub mod num;
 /// A module providing trait extensions.
 pub mod trait_exts;
 
@@ -46,12 +50,20 @@ impl<S: SimpleSolution> Solution for S {
 }
 
 macro_rules! impl_simple_solution {
-    ($($type:ty),+$(,)?) => {
-        $(impl SimpleSolution for $type {})+
-    }
+    ($type:ty) => {
+        impl SimpleSolution for $type {}
+    };
 }
 
-impl_simple_solution!(usize);
+macro_rules! repeat_macro {
+    ($macro:ident for $($x:tt)+) => {
+        $($macro!($x);)+
+    };
+}
+
+pub(crate) use repeat_macro;
+
+repeat_macro!(impl_simple_solution for usize);
 
 /// An entry point for the puzzle binaries.
 pub fn run(puzzle: impl Puzzle) -> Result<()> {

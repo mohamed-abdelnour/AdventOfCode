@@ -1,5 +1,21 @@
 use std::str::FromStr;
 
+use crate::num::FromStrRadix;
+
+/// An private extension trait to `std::iter::Iterator`.
+trait PrivateIteratorExt: Sized + Iterator {
+    /// Tries to map `f` over an iterator.
+    fn try_map<B, F, T, E>(self, f: F) -> Result<T, E>
+    where
+        F: Fn(Self::Item) -> Result<B, E>,
+        T: FromIterator<B>,
+    {
+        self.map(f).collect()
+    }
+}
+
+impl<I: Iterator> PrivateIteratorExt for I {}
+
 /// An extension trait to `std::iter::Iterator`.
 pub trait IteratorExt: Sized + Iterator {
     /// Tries to parse an iterator over `&str` into a `Vec<F>` where `F: FromStr`.
@@ -8,7 +24,16 @@ pub trait IteratorExt: Sized + Iterator {
         Self: Iterator<Item = &'a str>,
         F: FromStr,
     {
-        self.map(str::parse).collect()
+        self.try_map(str::parse)
+    }
+
+    /// Tries to parse an iterator over `&str` into a `Vec<N>` where `F: FromStrRadix`.
+    fn try_parse_radix<'a, N>(self, radix: u32) -> Result<Vec<N>, std::num::ParseIntError>
+    where
+        Self: Iterator<Item = &'a str>,
+        N: FromStrRadix,
+    {
+        self.try_map(|s| N::from_str_radix(s, radix))
     }
 }
 

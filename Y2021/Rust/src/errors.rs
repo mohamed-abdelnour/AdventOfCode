@@ -43,6 +43,7 @@ macro_rules! define_error {
 }
 
 define_error!(EmptyInputError, "input must not be empty");
+define_error!(ParseBinError, r#"a binary digit must be either "0" or "1""#);
 
 /// An error that represents an unsatisfied expectation.
 #[derive(Debug)]

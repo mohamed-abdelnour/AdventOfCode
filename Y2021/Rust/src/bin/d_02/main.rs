@@ -122,6 +122,23 @@ mod tests {
 
     use super::*;
 
+    #[test]
+    fn sample() {
+        D02.check("../Inputs/D02/sample.txt", [150, 900]);
+    }
+
+    #[test]
+    fn input() {
+        D02.check("../Inputs/D02/input.txt", [1_714_680, 1_963_088_820]);
+    }
+}
+
+#[cfg(test)]
+mod private {
+    use test_utils::*;
+
+    use super::*;
+
     fn parser(s: &str) -> Command {
         s.parse().unwrap()
     }
@@ -140,9 +157,7 @@ mod tests {
     }
 
     fn panic_parser(s: &str) {
-        if let Err(err) = s.parse::<Command>() {
-            panic!("{}", err);
-        }
+        s.parse::<Command>().display_panic();
     }
 
     #[test]
@@ -159,15 +174,5 @@ mod tests {
     )]
     fn parse_fail_input() {
         panic_parser("up down 10");
-    }
-
-    #[test]
-    fn sample() {
-        D02.check("../Inputs/D02/sample.txt", [150, 900]);
-    }
-
-    #[test]
-    fn input() {
-        D02.check("../Inputs/D02/input.txt", [1_714_680, 1_963_088_820]);
     }
 }
