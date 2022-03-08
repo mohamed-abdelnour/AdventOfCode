@@ -4,7 +4,7 @@ version = "0.1.0"
 edition = "2021"
 
 [dependencies]
-anyhow = "1.0.53"
+anyhow = "1.0.56"
 
 [dev-dependencies]
 test_utils = { path = "test_utils", version = "0.1.0" }
