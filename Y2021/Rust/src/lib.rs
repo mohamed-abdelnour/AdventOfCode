@@ -81,7 +81,7 @@ pub fn run(puzzle: impl Puzzle) -> Result<()> {
 #[macro_export]
 macro_rules! main {
     ($puzzle:ident) => {
-        fn main() -> Result<()> {
+        fn main() -> anyhow::Result<()> {
             aoc_2021::run($puzzle)
         }
     };
