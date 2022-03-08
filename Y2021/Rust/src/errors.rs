@@ -24,7 +24,7 @@ impl fmt::Display for AdHocError {
 
 impl Error for AdHocError {}
 
-/// Define simple error types using `AdHocError`.
+/// Defines simple error types using `AdHocError`.
 #[macro_export]
 macro_rules! define_error {
     ($error:ident, $message:expr) => {

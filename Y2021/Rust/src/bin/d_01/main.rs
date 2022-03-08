@@ -3,10 +3,7 @@
 
 //! [Day 01.](https://adventofcode.com/2021/day/1)
 
-use anyhow::Result;
-
 use aoc_2021::errors::EmptyInputError;
-use aoc_2021::trait_exts::iterator::IteratorExt;
 use aoc_2021::Puzzle;
 
 /// An accumulator of the number of times the measurements increase.
@@ -42,8 +39,8 @@ struct D01;
 impl Puzzle for D01 {
     type Solution = [u16; 2];
 
-    fn solve(&self, input: String) -> Result<Self::Solution> {
-        let input = input.lines().try_parse()?;
+    fn solve(&self, input: String) -> anyhow::Result<Self::Solution> {
+        let input: Vec<_> = input.lines().map(str::parse).collect::<Result<_, _>>()?;
 
         // The initial measurement.
         let measurement = *input.get(0).ok_or(EmptyInputError)?;

@@ -6,11 +6,8 @@
 use std::convert::identity;
 use std::ops::Not;
 
-use anyhow::Result;
-
 use aoc_2021::binary::{Bin, BinaryDigit};
 use aoc_2021::errors::EmptyInputError;
-use aoc_2021::trait_exts::iterator::IteratorExt;
 use aoc_2021::Puzzle;
 
 /// A counter for the number of zeros and that of ones, respectively.
@@ -141,10 +138,13 @@ struct D03;
 impl Puzzle for D03 {
     type Solution = [u32; 2];
 
-    fn solve(&self, input: String) -> Result<Self::Solution> {
+    fn solve(&self, input: String) -> anyhow::Result<Self::Solution> {
         let first = input.lines().next().ok_or(EmptyInputError)?;
         let last_index: u32 = (first.chars().count() - 1).try_into()?;
-        let input = input.lines().try_parse_radix(2)?;
+        let input = input
+            .lines()
+            .map(|s| u32::from_str_radix(s, 2))
+            .collect::<Result<Vec<_>, _>>()?;
 
         // Part 1: step the input once.
         let ps = Parameters::default();

@@ -8,7 +8,6 @@ use std::num::ParseIntError;
 use std::ops::ControlFlow;
 
 use aoc_2021::errors::ParseError;
-use aoc_2021::trait_exts::iterator::IteratorExt;
 use aoc_2021::Puzzle;
 
 /// The side length of a bingo board.
@@ -106,9 +105,9 @@ impl FromIterator<(u32, Position)> for Board {
 
 /// All the bingo boards in the game.
 #[derive(Debug)]
-struct Boards(Vec<Board>);
+struct Game(Vec<Board>);
 
-impl Boards {
+impl Game {
     /// Plays the game until all boards win.
     fn play(&mut self, order: Vec<u32>) -> [u32; 2] {
         let Self(boards) = self;
@@ -132,6 +131,7 @@ impl Boards {
                         let sum: u32 = board.cells.keys().sum();
                         solution[index] = number * sum;
                     };
+
                     // Call `part` only for the first and last boards to win.
                     if current_length == original_length {
                         part(0);
@@ -158,7 +158,7 @@ impl Boards {
     }
 }
 
-impl FromIterator<Board> for Boards {
+impl FromIterator<Board> for Game {
     fn from_iter<T>(iter: T) -> Self
     where
         T: IntoIterator<Item = Board>,
@@ -167,7 +167,7 @@ impl FromIterator<Board> for Boards {
     }
 }
 
-impl TryFrom<&str> for Boards {
+impl TryFrom<&str> for Game {
     type Error = ParseIntError;
 
     fn try_from(boards: &str) -> Result<Self, Self::Error> {
@@ -183,8 +183,8 @@ impl Puzzle for D04 {
 
     fn solve(&self, input: String) -> anyhow::Result<Self::Solution> {
         let (order, boards) = input.split_once("\n\n").ok_or(ParseError)?;
-        let order = order.split(',').try_parse::<u32>()?;
-        Ok(Boards::try_from(boards)?.play(order))
+        let order: Vec<_> = order.split(',').map(str::parse).collect::<Result<_, _>>()?;
+        Ok(Game::try_from(boards)?.play(order))
     }
 }
 

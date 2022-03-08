@@ -2,7 +2,7 @@ use std::ops::Not;
 
 use crate::errors::ParseBinError;
 
-/// The possible values for a binary digit.
+/// The possible values of a binary digit.
 #[derive(Debug, Eq, PartialEq)]
 pub enum BinaryDigit {
     /// 0.

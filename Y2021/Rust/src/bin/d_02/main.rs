@@ -3,12 +3,8 @@
 
 //! [Day 02.](https://adventofcode.com/2021/day/2)
 
-use std::result;
 use std::str::FromStr;
 
-use anyhow::Result;
-
-use aoc_2021::trait_exts::iterator::IteratorExt;
 use aoc_2021::Puzzle;
 
 /// A module for errors that can arise on parsing a command.
@@ -27,7 +23,7 @@ enum Command {
 impl FromStr for Command {
     type Err = CommandError;
 
-    fn from_str(s: &str) -> result::Result<Self, Self::Err> {
+    fn from_str(s: &str) -> Result<Self, Self::Err> {
         // Split by a single space.
         let command = s.split(' ').collect::<Vec<_>>();
         // Match to an array of size 2.
@@ -80,35 +76,33 @@ struct D02;
 impl Puzzle for D02 {
     type Solution = [i32; 2];
 
-    fn solve(&self, input: String) -> Result<Self::Solution> {
+    fn solve(&self, input: String) -> anyhow::Result<Self::Solution> {
         let mut position = Position::default();
         let mut aimed_position = AimedPosition::default();
 
-        let step = |command| match command {
-            // "forward" `v`
-            Command::Horizontal(v) => {
-                // Part 1: add `v` to the horizontal position.
-                position.horizontal += v;
+        let step = |command: Result<_, _>| {
+            command.map(|command| match command {
+                // "forward" `v`
+                Command::Horizontal(v) => {
+                    // Part 1: add `v` to the horizontal position.
+                    position.horizontal += v;
 
-                // Part 2: add `v` to the horizontal position and (aim * `v`) to the depth.
-                aimed_position.position.horizontal += v;
-                aimed_position.position.depth += aimed_position.aim * v;
-            }
-            // "down" `v` or "up" `-v`
-            Command::Vertical(v) => {
-                // Part 1: add `v` to the depth.
-                position.depth += v;
+                    // Part 2: add `v` to the horizontal position and (aim * `v`) to the depth.
+                    aimed_position.position.horizontal += v;
+                    aimed_position.position.depth += aimed_position.aim * v;
+                }
+                // "down" `v` or "up" `-v`
+                Command::Vertical(v) => {
+                    // Part 1: add `v` to the depth.
+                    position.depth += v;
 
-                // Part 2: add `v` to the aim.
-                aimed_position.aim += v;
-            }
+                    // Part 2: add `v` to the aim.
+                    aimed_position.aim += v;
+                }
+            })
         };
 
-        input
-            .lines()
-            .try_parse::<Command>()?
-            .into_iter()
-            .for_each(step);
+        input.lines().map(str::parse).try_for_each(step)?;
 
         Ok([position.prod(), aimed_position.position.prod()])
     }

@@ -5,24 +5,18 @@
 use std::fmt::Display;
 use std::{env, fs};
 
-use anyhow::Result;
-
 /// A module providing an interface for binary operations on numbers.
 pub mod binary;
 /// A module providing an interface for dealing with errors.
 pub mod errors;
-/// A module providing an interface for numeric types.
-pub mod num;
-/// A module providing trait extensions.
-pub mod trait_exts;
 
-/// An interface for for AoC puzzles.
+/// An interface for AoC puzzles.
 pub trait Puzzle {
     /// The type of the solution.
     type Solution: Solution;
 
     /// Tries to solve this puzzle.
-    fn solve(&self, input: String) -> Result<Self::Solution>;
+    fn solve(&self, input: String) -> anyhow::Result<Self::Solution>;
 }
 
 /// An interface for the puzzle solutions.
@@ -40,21 +34,6 @@ impl<T: Display, const N: usize> Solution for [T; N] {
     }
 }
 
-/// A marker trait for puzzle solutions that shall be directly displayed.
-pub trait SimpleSolution: Display {}
-
-impl<S: SimpleSolution> Solution for S {
-    fn print(&self) {
-        println!("Solution: {self}");
-    }
-}
-
-macro_rules! impl_simple_solution {
-    ($type:ty) => {
-        impl SimpleSolution for $type {}
-    };
-}
-
 macro_rules! repeat_macro {
     ($macro:ident for $($x:tt)+) => {
         $($macro!($x);)+
@@ -63,16 +42,12 @@ macro_rules! repeat_macro {
 
 pub(crate) use repeat_macro;
 
-repeat_macro!(impl_simple_solution for usize);
-
 /// An entry point for the puzzle binaries.
-pub fn run(puzzle: impl Puzzle) -> Result<()> {
-    env::args().skip(1).try_for_each(|arg| -> Result<()> {
+pub fn run(puzzle: impl Puzzle) -> anyhow::Result<()> {
+    env::args().skip(1).try_for_each(|arg| {
         println!("Input file: {arg}");
         let input = fs::read_to_string(arg)?;
-
         puzzle.solve(input)?.print();
-
         Ok(())
     })
 }
@@ -94,9 +69,9 @@ mod tests {
     struct P;
 
     impl Puzzle for P {
-        type Solution = usize;
-        fn solve(&self, input: String) -> Result<Self::Solution> {
-            Ok(input.len())
+        type Solution = [usize; 1];
+        fn solve(&self, input: String) -> anyhow::Result<Self::Solution> {
+            Ok([input.len()])
         }
     }
 
@@ -104,6 +79,6 @@ mod tests {
     fn solve() {
         let solutions = P.solve(('0'..='9').collect()).unwrap();
         solutions.print();
-        assert_eq!(solutions, 10);
+        assert_eq!(solutions, [10]);
     }
 }
