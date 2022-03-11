@@ -3,14 +3,14 @@ use std::fmt;
 
 /// A simple error type that wraps a message.
 #[derive(Debug)]
-struct AdHocError {
+pub struct AdHocError {
     /// The message to wrap as an error.
     message: String,
 }
 
 impl AdHocError {
     /// Returns a new `AdHocError` from a given message.
-    fn new(message: impl ToString) -> Self {
+    pub fn new(message: impl ToString) -> Self {
         let message = message.to_string();
         AdHocError { message }
     }
@@ -32,19 +32,17 @@ macro_rules! define_error {
         #[derive(Debug)]
         pub struct $error;
 
-        impl fmt::Display for $error {
-            fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
-                AdHocError::new($message).fmt(f)
+        impl std::fmt::Display for $error {
+            fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
+                $crate::errors::AdHocError::new($message).fmt(f)
             }
         }
 
-        impl Error for $error {}
+        impl std::error::Error for $error {}
     };
 }
 
 define_error!(EmptyInputError, "input must not be empty");
-define_error!(ParseBinError, r#"a binary digit must be either "0" or "1""#);
-define_error!(ParseError, "invalid input format");
 
 /// An error that represents an unsatisfied expectation.
 #[derive(Debug)]

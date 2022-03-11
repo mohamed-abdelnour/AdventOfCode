@@ -9,6 +9,10 @@ use std::{env, fs};
 pub mod binary;
 /// A module providing an interface for dealing with errors.
 pub mod errors;
+/// A module providing an interface for numeric types.
+pub mod num;
+/// A module that defines a generic, homogeneous pair type.
+pub mod pair;
 
 /// An interface for AoC puzzles.
 pub trait Puzzle {

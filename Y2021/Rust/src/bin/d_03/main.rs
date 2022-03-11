@@ -8,6 +8,7 @@ use std::ops::Not;
 
 use aoc_2021::binary::{Bin, BinaryDigit};
 use aoc_2021::errors::EmptyInputError;
+use aoc_2021::pair::Pair;
 use aoc_2021::Puzzle;
 
 /// A counter for the number of zeros and that of ones, respectively.
@@ -58,20 +59,7 @@ impl Input for &[u32] {
 }
 
 /// The puzzle parameters.
-#[derive(Debug, Default)]
-struct Parameters {
-    /// Part 1: gamma, part 2: oxygen generator rating.
-    most: u32,
-    /// Part 1: epsilon, part 2: carbon dioxide scrubber rating.
-    least: u32,
-}
-
-impl Parameters {
-    /// Returns the product of the two parameters.
-    fn prod(&self) -> u32 {
-        self.most * self.least
-    }
-}
+type Parameters = Pair<u32>;
 
 /// Part 1.
 #[derive(Debug)]
@@ -91,9 +79,9 @@ impl P1<'_> {
         let most_common = self.input.most_common_at(index);
         let multiple = 2u32.pow(index);
         if most_common == BinaryDigit::One {
-            self.ps.most += multiple;
+            self.ps.0 += multiple;
         } else {
-            self.ps.least += multiple;
+            self.ps.1 += multiple;
         }
         most_common
     }
@@ -167,10 +155,7 @@ impl Puzzle for D03 {
         });
 
         let p_1 = gamma_epsilon.ps;
-        let p_2 = Parameters {
-            most: oxygen.input[0],
-            least: carbon_dioxide.input[0],
-        };
+        let p_2 = Pair(oxygen.input[0], carbon_dioxide.input[0]);
         Ok([p_1.prod(), p_2.prod()])
     }
 }

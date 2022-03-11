@@ -1,6 +1,8 @@
 use std::ops::Not;
 
-use crate::errors::ParseBinError;
+use crate::define_error;
+
+define_error!(ParseBinError, r#"a binary digit must be either "0" or "1""#);
 
 /// The possible values of a binary digit.
 #[derive(Debug, Eq, PartialEq)]

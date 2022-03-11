@@ -5,6 +5,7 @@
 
 use std::str::FromStr;
 
+use aoc_2021::pair::Pair;
 use aoc_2021::Puzzle;
 
 /// A module for errors that can arise on parsing a command.
@@ -54,10 +55,9 @@ struct Position {
     depth: i32,
 }
 
-impl Position {
-    /// Multiplies the horizontal position by the depth.
-    const fn prod(&self) -> i32 {
-        self.horizontal * self.depth
+impl From<Position> for Pair<i32> {
+    fn from(Position { horizontal, depth }: Position) -> Self {
+        Pair(horizontal, depth)
     }
 }
 
@@ -78,7 +78,10 @@ impl Puzzle for D02 {
 
     fn solve(&self, input: String) -> anyhow::Result<Self::Solution> {
         let mut position = Position::default();
-        let mut aimed_position = AimedPosition::default();
+        let AimedPosition {
+            position: mut aimed,
+            mut aim,
+        } = AimedPosition::default();
 
         let step = |command: Result<_, _>| {
             command.map(|command| match command {
@@ -88,8 +91,8 @@ impl Puzzle for D02 {
                     position.horizontal += v;
 
                     // Part 2: add `v` to the horizontal position and (aim * `v`) to the depth.
-                    aimed_position.position.horizontal += v;
-                    aimed_position.position.depth += aimed_position.aim * v;
+                    aimed.horizontal += v;
+                    aimed.depth += aim * v;
                 }
                 // "down" `v` or "up" `-v`
                 Command::Vertical(v) => {
@@ -97,14 +100,14 @@ impl Puzzle for D02 {
                     position.depth += v;
 
                     // Part 2: add `v` to the aim.
-                    aimed_position.aim += v;
+                    aim += v;
                 }
             })
         };
 
         input.lines().map(str::parse).try_for_each(step)?;
 
-        Ok([position.prod(), aimed_position.position.prod()])
+        Ok([Pair::from(position).prod(), Pair::from(aimed).prod()])
     }
 }
 

@@ -7,20 +7,17 @@ use std::collections::HashMap;
 use std::num::ParseIntError;
 use std::ops::ControlFlow;
 
-use aoc_2021::errors::ParseError;
+use aoc_2021::define_error;
+use aoc_2021::pair::Pair;
 use aoc_2021::Puzzle;
+
+define_error!(BingoFormatError, "did not find a blank line");
 
 /// The side length of a bingo board.
 const SIZE: usize = 5;
 
 /// The position of a cell on a bingo board.
-#[derive(Debug)]
-struct Position {
-    /// The horizontal position (row).
-    x: usize,
-    /// The vertical position (column).
-    y: usize,
-}
+type Position = Pair<usize>;
 
 /// An interface for keeping track of the state of the game.
 trait State {
@@ -57,9 +54,9 @@ impl Board {
     /// Marks a number on the board (if it exists), removing it from the board and checking if the
     /// board has won.
     fn mark(&mut self, number: u32) {
-        if let Some(&Position { x, y }) = self.cells.get(&number) {
+        if let Some(&p) = self.cells.get(&number) {
             self.cells.remove(&number);
-            self.is_done = self.update_check(Position { x, y });
+            self.is_done = self.update_check(p);
         }
     }
 }
@@ -67,7 +64,7 @@ impl Board {
 impl State for Board {
     type Index = Position;
 
-    fn update_check(&mut self, Position { x, y }: Self::Index) -> bool {
+    fn update_check(&mut self, Pair(x, y): Self::Index) -> bool {
         self.rows.update_check(x) || self.columns.update_check(y)
     }
 }
@@ -85,7 +82,7 @@ impl TryFrom<&str> for Board {
             .flat_map(|(x, row)| {
                 row.split_ascii_whitespace()
                     .enumerate()
-                    .map(move |(y, column)| Ok((column.parse()?, Position { x, y })))
+                    .map(move |(y, column)| Ok((column.parse()?, Pair(x, y))))
             })
             .collect()
     }
@@ -182,7 +179,7 @@ impl Puzzle for D04 {
     type Solution = [u32; 2];
 
     fn solve(&self, input: String) -> anyhow::Result<Self::Solution> {
-        let (order, boards) = input.split_once("\n\n").ok_or(ParseError)?;
+        let (order, boards) = input.split_once("\n\n").ok_or(BingoFormatError)?;
         let order: Vec<_> = order.split(',').map(str::parse).collect::<Result<_, _>>()?;
         Ok(Game::try_from(boards)?.play(order))
     }
