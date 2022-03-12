@@ -49,9 +49,10 @@ pub(crate) use repeat_macro;
 /// An entry point for the puzzle binaries.
 pub fn run(puzzle: impl Puzzle) -> anyhow::Result<()> {
     env::args().skip(1).try_for_each(|arg| {
+        let input = fs::read_to_string(&arg)?;
+        let solution = puzzle.solve(input)?;
         println!("Input file: {arg}");
-        let input = fs::read_to_string(arg)?;
-        puzzle.solve(input)?.print();
+        solution.print();
         Ok(())
     })
 }

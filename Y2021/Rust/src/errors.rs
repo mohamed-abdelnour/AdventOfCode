@@ -42,7 +42,10 @@ macro_rules! define_error {
     };
 }
 
-define_error!(EmptyInputError, "input must not be empty");
+define_error!(
+    EmptyInputError,
+    "input must not be empty any must contain at least one line ending"
+);
 
 /// An error that represents an unsatisfied expectation.
 #[derive(Debug)]
