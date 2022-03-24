@@ -19,3 +19,11 @@ Input file: ../Inputs/D07/sample.txt
   Part 1: 37
   Part 2: 168
 ```
+
+## Documentation
+
+The [`docs/`](./docs/) directory contains a document that explains some of the
+intuition behind the solution. A [pre-built PDF](./docs/d_07.pdf) is included
+in the directory along with its LaTeX source. To build the PDF from source,
+install [TeX Live](https://www.tug.org/texlive/) (or similar) and run `latexmk`
+inside `docs/`.
