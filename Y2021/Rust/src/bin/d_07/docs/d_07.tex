@@ -1,0 +1,149 @@
+\documentclass[11pt]{article}
+\usepackage[margin = 2.5cm, headheight = 36pt]{geometry}
+\usepackage{fancyhdr}
+
+\usepackage{amssymb}
+\usepackage{mathtools}
+
+% \usepackage{showlabels}
+
+\pagestyle{fancy}
+\fancyhead{}
+\fancyhead[L]{Day 07}
+\fancyhead[R]{AoC 2021}
+\fancyfoot{}
+\fancyfoot[R]{\thepage}
+
+\renewcommand{\baselinestretch}{1.15}
+\setlength{\parindent}{0cm}
+
+\begin{document}
+
+\section*{Set-up}
+
+Let \(X\) be a sorted list of positive integers with length \(L\), then
+\begin{equation*}
+    X = {
+    [x_0, x_1, \ldots, x_{L - 2}, x_{L - 1}]:
+    \{x_i, i \in \mathbb{Z}: x_i, i \geqslant 0\}
+    }
+\end{equation*}
+
+For a list \(T\), let \(s(T)\) be the sum of all the elements in the list, then
+\begin{equation*}
+    s(T) = \sum_{i = 0}^{L_T - 1} t_i: \{i \in \mathbb{Z}: i \geqslant 0\} {,}
+\end{equation*}
+where \(L_T\) is the length of \(T\) and \(t_i\) is the element at index \(i\)
+in \(T\).
+
+\section*{Part 1}
+The goal is to derive a function \(p(k)\) such that:
+\begin{equation}
+    p(k) = \sum_{i = 0}^{L - 1} |x_i - k| \label{eq:1}
+\end{equation}
+
+Let \(f(i, k) = |x_i - k|\), then
+\begin{equation*}
+    f(i, k) =
+    \begin{dcases}
+        x_i - k: & x_i - k \geqslant 0 \\
+        k - x_i: & x_i -k < 0
+    \end{dcases}
+\end{equation*}
+
+\vspace{0.5\baselineskip}
+
+For each value of \(k\), split \(X\) into \(X_l\) and \(X_h\) such that \(X_l\)
+contains all \(x_i: x_i < k\) and \(X_h\) contains all \(x_i: x_i \geqslant
+k\). Let the lengths of \(X_l\) and \(X_h\) be \(L_l\) and \(L_h\),
+respectively, then
+\begin{align}
+    L_l + L_h       & = L \iff L_h = L - L_l \label{eq:2}             \\
+    s(X_l) + s(X_h) & = s(X) \iff s(X_h) = s(X) - s(X_l) \label{eq:3}
+\end{align}
+
+Thus, \eqref{eq:1} can be rewritten in terms of \(X_l\) and \(X_h\) as follows:
+\begin{equation*}
+    \setlength{\jot}{0.5\baselineskip}
+    \begin{aligned}
+        p(k) & = {
+        \sum_{i = 0}^{L_l - 1} (k - {x_{l}}_{i}) +
+        \sum_{i = 0}^{L_h - 1} ({x_{h}}_{i} - k):
+        \{{x_{l}}_{i} \in X_l, {x_{h}}_{i} \in X_h\}
+        }                                        \\
+        %
+        p(k) & = L_l k - s(X_l) + s(X_h) - L_h k
+    \end{aligned}
+\end{equation*}
+
+From \eqref{eq:2} and \eqref{eq:3},
+\begin{align}
+    p(k) & = {
+    L_l k - s(X_l) +
+    \underbrace{s(X) - s(X_l)}_{s(X_h)} -
+    \underbrace{(L - L_l)}_{L_h} k
+    } \nonumber \\
+    p(k) & =  {
+    s(X) + 2 L_l k - (2 s(X_l) + L k)
+    \tag{P} \label{eq:p}
+    }
+\end{align}
+
+\newpage
+
+\section*{Part 2}
+
+Let \(S_N(n)\) be the arithmetic series with \(a = 1\) and \(d = 1\), then
+\begin{equation*}
+    S_N(n) = \frac{1}{2} \left({n^2 + n}\right)
+\end{equation*}
+
+
+The goal is to derive a function \(q(k)\) such that:
+\begin{equation*}
+    q(k) = \sum_{i = 0}^{L - 1} S_n(|x_i - k|)
+\end{equation*}
+
+Using the definition of \(S_N\),
+\begin{equation*}
+    \setlength{\jot}{0.5\baselineskip}
+    \begin{aligned}
+        q(k) & = \frac{1}{2} \sum_{i = 0}^{L - 1}
+        \left({(x_i - k)^2 + |x_i - k|}\right)    \\
+        %
+        q(k) & = \frac{1}{2} \left({
+            \sum_{i = 0}^{L - 1} (x_i - k)^2 +
+            \underbrace{
+                \sum_{i = 0}^{L - 1} |x_i - k|
+            }_{p(k)}
+        }\right)                                  \\
+        %
+        q(k) & = \frac{1}{2} \left({
+                    \sum_{i = 0}^{L - 1} \left({x_i^2 + k^2 - 2 x_i k}\right) +
+                    p(k)
+        }\right)                                  \\
+        %
+        q(k) & = \frac{1}{2} \left({
+                    \sum_{i = 0}^{L - 1} \left({x_i^2}\right) +
+                    p(k) + L k^2
+                }\right) - k s(X)
+    \end{aligned}
+\end{equation*}
+
+For a list \(T\), let \(ss(T)\) be the sum of the squares of all the elements
+in the list, then
+\begin{equation*}
+    ss(T) = {
+    \sum_{i = 0}^{L_T - 1} {t_i}^2: \{i \in \mathbb{Z}:
+    i \geqslant 0\} {,}
+    }
+\end{equation*}
+where \(L_T\) is the length of \(T\) and \(t_i\) is the element at index \(i\)
+in \(T\); then,
+
+\begin{equation*}
+    q(k) = \frac{p(k) + ss(X) + L k^2}{2} - k s(X)
+    \tag{Q} \label{eq:q}
+\end{equation*}
+
+\end{document}

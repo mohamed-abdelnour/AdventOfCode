@@ -1,7 +1,11 @@
-*.hi
-*.o
+# Haskell
 .stack-work/
-Archived/
-Main
-Testing/
+
+# LaTeX
+*.aux
+*.fdb_latexmk
+*.fls
+*.log
+
+# Rust
 target/

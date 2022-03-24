@@ -13,6 +13,8 @@ pub mod errors;
 pub mod num;
 /// A module that defines a generic, homogeneous pair type.
 pub mod pair;
+/// A module providing an interface for searching over types.
+pub mod search;
 
 /// An interface for AoC puzzles.
 pub trait Puzzle {

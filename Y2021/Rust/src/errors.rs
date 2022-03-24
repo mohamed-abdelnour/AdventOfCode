@@ -1,30 +1,7 @@
 use std::error::Error;
 use std::fmt;
 
-/// A simple error type that wraps a message.
-#[derive(Debug)]
-pub struct AdHocError {
-    /// The message to wrap as an error.
-    message: String,
-}
-
-impl AdHocError {
-    /// Returns a new `AdHocError` from a given message.
-    pub fn new(message: impl ToString) -> Self {
-        let message = message.to_string();
-        AdHocError { message }
-    }
-}
-
-impl fmt::Display for AdHocError {
-    fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
-        write!(f, "{}", self.message)
-    }
-}
-
-impl Error for AdHocError {}
-
-/// Defines simple error types using `AdHocError`.
+/// Defines simple error types.
 #[macro_export]
 macro_rules! define_error {
     ($error:ident, $message:expr) => {
@@ -34,7 +11,7 @@ macro_rules! define_error {
 
         impl std::fmt::Display for $error {
             fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
-                $crate::errors::AdHocError::new($message).fmt(f)
+                write!(f, "{}", $message)
             }
         }
 
