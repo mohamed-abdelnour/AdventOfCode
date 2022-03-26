@@ -5,8 +5,8 @@
 use std::fmt::Display;
 use std::{env, fs};
 
-/// A module providing an interface for binary operations on numbers.
-pub mod binary;
+/// A module providing an interface for bit operations.
+pub mod bits;
 /// A module providing an interface for dealing with errors.
 pub mod errors;
 /// A module providing an interface for numeric types.

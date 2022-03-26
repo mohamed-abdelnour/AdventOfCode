@@ -6,7 +6,7 @@
 use std::convert::identity;
 use std::ops::Not;
 
-use aoc_2021::binary::{Bin, BinaryDigit};
+use aoc_2021::bits::{Bit, Bits};
 use aoc_2021::errors::EmptyInputError;
 use aoc_2021::pair::Pair;
 use aoc_2021::Puzzle;
@@ -21,38 +21,37 @@ struct Count {
 }
 
 impl Count {
-    /// Updates the frequency count given a binary digit.
-    fn update(&mut self, other: BinaryDigit) {
+    /// Updates the frequency count given a bit.
+    fn update(&mut self, other: Bit) {
         match other {
-            BinaryDigit::Zero => self.zeros += 1,
-            BinaryDigit::One => self.ones += 1,
+            Bit::Zero => self.zeros += 1,
+            Bit::One => self.ones += 1,
         }
     }
 
-    /// Returns the most common digit after counting; returns `BinaryDigit::One` if both are
-    /// equally common.
-    fn most_common(&self) -> BinaryDigit {
-        BinaryDigit::from(self.ones >= self.zeros)
+    /// Returns the most common bit after counting; returns `Bit::One` if both are equally common.
+    fn most_common(&self) -> Bit {
+        Bit::from(self.ones >= self.zeros)
     }
 }
 
 /// An extension trait that provides `most_common_at` for a type.
 trait Input {
-    /// Computes the most common binary digit at a given position in a slice of numbers.
-    fn most_common_at(self, index: u32) -> BinaryDigit;
+    /// Computes the most common bit at a given position in a slice of numbers.
+    fn most_common_at(self, index: u32) -> Bit;
 }
 
 impl Input for &[u32] {
-    fn most_common_at(self, index: u32) -> BinaryDigit {
+    fn most_common_at(self, index: u32) -> Bit {
         let mut count = Count::default();
         let mid = self.len() / 2;
         for number in self {
-            // Given that there are _exactly_ 2 possible values for a binary digit: if either digit
-            // occurs more than `mid` times, then it is guaranteed to be the most common one.
+            // Given that there are _exactly_ 2 possible values for a bit: if either bit occurs
+            // more than `mid` times, then it is guaranteed to be the most common one.
             if count.zeros > mid || count.ones > mid {
                 break;
             }
-            count.update(number.digit(index));
+            count.update(number.bit(index));
         }
         count.most_common()
     }
@@ -71,14 +70,14 @@ struct P1<'a> {
 }
 
 impl P1<'_> {
-    /// Steps the input, calculating the most common binary digit for a given index and updating
-    /// the gamma end epsilon accordingly.
+    /// Steps the input, calculating the most common bit for a given index and updating the gamma
+    /// end epsilon accordingly.
     /// The return value is only useful for the first step as it is later used in partitioning the
     /// input for part 2.
-    fn step(&mut self, index: u32) -> BinaryDigit {
+    fn step(&mut self, index: u32) -> Bit {
         let most_common = self.input.most_common_at(index);
         let multiple = 2u32.pow(index);
-        if most_common == BinaryDigit::One {
+        if most_common == Bit::One {
             self.ps.0 += multiple;
         } else {
             self.ps.1 += multiple;
@@ -92,7 +91,7 @@ impl P1<'_> {
 struct P2 {
     /// A transformation to the most common value at a given position that determines which numbers
     /// to retain.
-    f: fn(BinaryDigit) -> BinaryDigit,
+    f: fn(Bit) -> Bit,
     /// An owned copy of the puzzle input that gets shrunk until only one element remains.
     input: Vec<u32>,
 }
@@ -110,12 +109,12 @@ impl P2 {
         Self { f: Not::not, input }
     }
 
-    /// Retains the elements that have a digit at the current position that matches either the most
+    /// Retains the elements that have a bit at the current position that matches either the most
     /// common or the least common one (according to `self.f`) in all elements at this position.
     fn step(&mut self, index: u32) {
         if self.input.len() != 1 {
             let keep = (self.f)(self.input.most_common_at(index));
-            self.input.retain(|number| number.digit(index) == keep);
+            self.input.retain(|number| number.bit(index) == keep);
         }
     }
 }
@@ -143,7 +142,7 @@ impl Puzzle for D03 {
         // input into 2 parts.
         let (oxygen, carbon_dioxide) = input
             .iter()
-            .partition(|number| number.digit(last_index) == most_common);
+            .partition(|number| number.bit(last_index) == most_common);
 
         let mut oxygen = P2::oxygen(oxygen);
         let mut carbon_dioxide = P2::carbon_dioxide(carbon_dioxide);
@@ -186,33 +185,33 @@ mod private {
     #[test]
     fn most_common_even() {
         let all_zeros = [0, 0, 0, 0].most_common_at(0);
-        assert_eq!(all_zeros, BinaryDigit::Zero);
+        assert_eq!(all_zeros, Bit::Zero);
 
         let all_ones = [1, 1, 1, 1].most_common_at(0);
-        assert_eq!(all_ones, BinaryDigit::One);
+        assert_eq!(all_ones, Bit::One);
 
         let most_zeros = [0, 0, 0, 1].most_common_at(0);
-        assert_eq!(most_zeros, BinaryDigit::Zero);
+        assert_eq!(most_zeros, Bit::Zero);
 
         let most_ones = [1, 1, 0, 1].most_common_at(0);
-        assert_eq!(most_ones, BinaryDigit::One);
+        assert_eq!(most_ones, Bit::One);
 
         let equally_common = [0, 0, 1, 1].most_common_at(0);
-        assert_eq!(equally_common, BinaryDigit::One);
+        assert_eq!(equally_common, Bit::One);
     }
 
     #[test]
     fn most_common_odd() {
         let all_zeros = [0, 0, 0].most_common_at(0);
-        assert_eq!(all_zeros, BinaryDigit::Zero);
+        assert_eq!(all_zeros, Bit::Zero);
 
         let all_ones = [1, 1, 1].most_common_at(0);
-        assert_eq!(all_ones, BinaryDigit::One);
+        assert_eq!(all_ones, Bit::One);
 
         let most_zeros = [0, 0, 1].most_common_at(0);
-        assert_eq!(most_zeros, BinaryDigit::Zero);
+        assert_eq!(most_zeros, Bit::Zero);
 
         let most_ones = [1, 0, 1].most_common_at(0);
-        assert_eq!(most_ones, BinaryDigit::One);
+        assert_eq!(most_ones, Bit::One);
     }
 }
