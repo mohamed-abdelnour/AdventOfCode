@@ -6,6 +6,7 @@
 use std::collections::HashMap;
 use std::num::ParseIntError;
 use std::ops::ControlFlow;
+use std::str::FromStr;
 
 use aoc_2021::define_error;
 use aoc_2021::pair::Pair;
@@ -69,13 +70,13 @@ impl State for Board {
     }
 }
 
-impl TryFrom<&str> for Board {
-    type Error = ParseIntError;
+impl FromStr for Board {
+    type Err = ParseIntError;
 
     // For each position in `(0..SIZE).flat_map(|row| std::iter::repeat(row).zip(0..SIZE))`, finds
     // the number at this position, constructs the tuple (number, position) and collects the pairs
     // into a `Board`.
-    fn try_from(board: &str) -> Result<Self, Self::Error> {
+    fn from_str(board: &str) -> Result<Self, Self::Err> {
         board
             .lines()
             .enumerate()
@@ -164,11 +165,11 @@ impl FromIterator<Board> for Game {
     }
 }
 
-impl TryFrom<&str> for Game {
-    type Error = ParseIntError;
+impl FromStr for Game {
+    type Err = ParseIntError;
 
-    fn try_from(boards: &str) -> Result<Self, Self::Error> {
-        boards.split("\n\n").map(Board::try_from).collect()
+    fn from_str(boards: &str) -> Result<Self, Self::Err> {
+        boards.split("\n\n").map(str::parse).collect()
     }
 }
 
@@ -181,7 +182,7 @@ impl Puzzle for D04 {
     fn solve(&self, input: String) -> anyhow::Result<Self::Solution> {
         let (order, boards) = input.split_once("\n\n").ok_or(BingoFormatError)?;
         let order: Vec<_> = order.split(',').map(str::parse).collect::<Result<_, _>>()?;
-        Ok(Game::try_from(boards)?.play(order))
+        Ok(boards.parse::<Game>()?.play(order))
     }
 }
 
