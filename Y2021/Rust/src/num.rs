@@ -162,14 +162,14 @@ macro_rules! impl_signed_integer {
 
             #[test]
             fn signed_gcd() {
-                const X: $type = 2 * 3 * 5 * 7;
+                const X: $type = 2 * 3 * 5;
 
                 assert_eq!(X.gcd(&X), X);
                 assert_eq!(X.gcd(&0), X);
-                assert_eq!(X.gcd(&(2 * 5 * 7)), 2 * 5 * 7);
-                assert_eq!((-X).gcd(&(3 * 5 * 7)), 3 * 5 * 7);
-                assert_eq!(X.gcd(&(2 * 7 * 11)), 2 * 7);
-                assert_eq!((-X).gcd(&(2 * 7 * 11)), 2 * 7);
+                assert_eq!(X.gcd(&(2 * 5)), 2 * 5);
+                assert_eq!((-X).gcd(&(3 * 5)), 3 * 5);
+                assert_eq!(X.gcd(&(2 * 11)), 2);
+                assert_eq!((-X).gcd(&(2 * 11)), 2);
                 assert_eq!((30 as $type).gcd(&3), 3);
                 assert_eq!(((-10) as $type).gcd(&2), 2);
             }
