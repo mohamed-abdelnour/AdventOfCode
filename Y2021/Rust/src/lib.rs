@@ -15,6 +15,8 @@ pub mod num;
 pub mod pair;
 /// A module providing an interface for searching over types.
 pub mod search;
+/// A module providing an interface for transposing matrix-like types.
+pub mod transpose;
 
 /// An interface for AoC puzzles.
 pub trait Puzzle {

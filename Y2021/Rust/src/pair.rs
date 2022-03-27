@@ -32,6 +32,12 @@ impl<T> From<Pair<T>> for (T, T) {
     }
 }
 
+impl<T> From<Pair<T>> for [T; 2] {
+    fn from(Pair(x, y): Pair<T>) -> Self {
+        [x, y]
+    }
+}
+
 impl<T: Add> Add for Pair<T> {
     type Output = Pair<T::Output>;
 

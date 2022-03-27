@@ -5,11 +5,10 @@ use crate::define_error;
 define_error!(ParseBinError, r#"a bit must be either "0" or "1""#);
 
 /// The possible values of a bit.
+#[allow(missing_docs)]
 #[derive(Debug, Eq, PartialEq)]
 pub enum Bit {
-    /// 0.
     Zero,
-    /// 1.
     One,
 }
 
@@ -78,7 +77,7 @@ macro_rules! impl_bin {
     };
 }
 
-crate::repeat_macro!(impl_bin for u32);
+crate::repeat_macro!(impl_bin for u32 usize);
 
 #[cfg(test)]
 mod tests {
@@ -88,17 +87,17 @@ mod tests {
 
     #[test]
     fn bin_try_from_success() {
-        let zero = Bit::try_from(0).unwrap();
+        let zero = Bit::try_from(0_usize).unwrap();
         assert_eq!(zero, Bit::Zero);
 
-        let one: Bit = 1.try_into().unwrap();
+        let one: Bit = 1_usize.try_into().unwrap();
         assert_eq!(one, Bit::One);
     }
 
     #[test]
     #[should_panic(expected = r#"a bit must be either "0" or "1""#)]
     fn bin_try_from_fail() {
-        Bit::try_from(2).display_panic();
+        Bit::try_from(2_usize).display_panic();
     }
 
     #[test]
