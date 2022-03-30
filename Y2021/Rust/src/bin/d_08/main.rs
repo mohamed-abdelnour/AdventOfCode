@@ -268,7 +268,7 @@ impl Output {
             transposed_fixed[new] = transposed[old];
         });
 
-        // Part 2: decode each digit in the array and turn "concatenate" the output value.
+        // Part 2: decode each digit in the array and "concatenate" the output value.
         //
         // For example, for transposed_fixed.bit_transpose::<OUTPUT>() = [91, 107, 91, 107]:
         //
