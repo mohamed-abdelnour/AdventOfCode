@@ -107,7 +107,7 @@ impl Puzzle for D02 {
 
         input.lines().map(str::parse).try_for_each(step)?;
 
-        Ok([Pair::from(position).prod(), Pair::from(aimed).prod()])
+        Ok([Pair::from(position).product(), Pair::from(aimed).product()])
     }
 }
 

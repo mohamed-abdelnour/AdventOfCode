@@ -155,7 +155,7 @@ impl Puzzle for D03 {
 
         let p_1 = gamma_epsilon.ps;
         let p_2 = Pair(oxygen.input[0], carbon_dioxide.input[0]);
-        Ok([p_1.prod(), p_2.prod()])
+        Ok([p_1.product(), p_2.product()])
     }
 }
 
