@@ -50,10 +50,10 @@ struct Segment {
     start: Point,
     /// The end position, obtained from parsing the list.
     end: Point,
-    /// A marker for the current position, useful for iterating over the segment.
-    current: Option<Point>,
     /// The smallest Point that divides the segment.
     step: Point,
+    /// The number of points in this segment.
+    size: usize,
 }
 
 impl Segment {
@@ -62,11 +62,30 @@ impl Segment {
         let Pair(x, y) = end - start;
         let gcd = x.gcd(&y);
         let simplify = |n| n / gcd;
+        let dx = simplify(x);
+        let dy = simplify(y);
+
+        let step = Pair(dx, dy);
+
+        let size = {
+            let size_semi_exclusive = {
+                if dx == 0 {
+                    (end.1 - start.1) / dy
+                } else {
+                    (end.0 - start.0) / dx
+                }
+            };
+
+            // size_semi_exclusive is guaranteed to be non-negative, and it is also guaranteed to
+            // fit in a usize; thus, it is fine to cast.
+            size_semi_exclusive as usize + 1
+        };
+
         Self {
             start,
             end,
-            current: Some(start),
-            step: Pair(simplify(x), simplify(y)),
+            step,
+            size,
         }
     }
 
@@ -117,19 +136,13 @@ impl Iterator for Segment {
     type Item = Point;
 
     fn next(&mut self) -> Option<Self::Item> {
-        // Yield all the points from start to end (inclusive) by yielding self.current and then
-        // incrementing it by self.step on each call to next.
-        if let c @ Some(current) = self.current {
-            self.current = {
-                if current == self.end {
-                    None
-                } else {
-                    Some(current + self.step)
-                }
-            };
-            c
-        } else {
+        if self.size == 0 {
             None
+        } else {
+            self.size -= 1;
+            let current = self.start;
+            self.start += self.step;
+            Some(current)
         }
     }
 }
