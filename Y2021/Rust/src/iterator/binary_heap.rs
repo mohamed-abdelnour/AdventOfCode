@@ -13,13 +13,7 @@ impl<T: Ord> Iterator for BinaryHeapIter<T> {
     }
 }
 
-impl<T> From<BinaryHeap<T>> for BinaryHeapIter<T> {
-    fn from(heap: BinaryHeap<T>) -> Self {
-        BinaryHeapIter { heap }
-    }
-}
-
-/// An extension trait that add functionality to `std::collections::BinaryHeap`.
+/// An extension trait that adds functionality to `std::collections::BinaryHeap`.
 pub trait BinaryHeapExt<T> {
     /// Returns an iterator over the heap that retrieves elements in heap order.
     fn iter_heap(self) -> BinaryHeapIter<T>;
@@ -27,6 +21,24 @@ pub trait BinaryHeapExt<T> {
 
 impl<T: Ord> BinaryHeapExt<T> for BinaryHeap<T> {
     fn iter_heap(self) -> BinaryHeapIter<T> {
-        self.into()
+        BinaryHeapIter { heap: self }
+    }
+}
+
+#[cfg(test)]
+mod tests {
+    use crate::iterator::Array;
+
+    use super::*;
+
+    #[test]
+    fn heap() {
+        const MAX: usize = 10;
+
+        let array = (0..MAX).collect::<Array<_, MAX>>().into_inner();
+        let heap = BinaryHeap::from(array);
+        heap.iter_heap().enumerate().for_each(|(i, v)| {
+            assert_eq!(MAX - 1 - i, v);
+        })
     }
 }
