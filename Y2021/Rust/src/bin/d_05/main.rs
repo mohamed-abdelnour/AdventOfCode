@@ -72,8 +72,8 @@ impl Segment {
                 }
             };
 
-            // size_semi_exclusive is guaranteed to be non-negative, and it is also guaranteed to
-            // fit in a usize; thus, it is fine to cast.
+            // CAST: size_semi_exclusive is guaranteed to be non-negative, and it is also
+            // guaranteed to fit in a usize; thus, it is fine to cast.
             size_semi_exclusive as usize + 1
         };
 

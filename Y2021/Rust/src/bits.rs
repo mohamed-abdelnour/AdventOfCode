@@ -52,8 +52,8 @@ macro_rules! impl_bin {
     ($type:ty) => {
         impl Bits for $type {
             fn bit(self, index: Self) -> Bit {
-                // For all n (such that n is an integer): n & 1 returns either 0 or 1; thus, it is
-                // fine to unwrap the result.
+                // UNWRAP: For all n (such that n is an integer): n & 1 returns either 0 or 1;
+                // thus, it is fine to unwrap the result.
                 ((self >> index) & 1).try_into().unwrap()
             }
         }
@@ -72,6 +72,7 @@ macro_rules! impl_bin {
 
         impl From<Bit> for $type {
             fn from(bit: Bit) -> Self {
+                // CAST: the enum fits in all integral types.
                 bit as $type
             }
         }

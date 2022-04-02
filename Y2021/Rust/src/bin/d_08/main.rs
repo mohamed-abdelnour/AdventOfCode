@@ -65,6 +65,7 @@ impl Segment {
     /// Segment::G => 64,
     /// ```
     fn encode(self) -> usize {
+        // CAST: the enum fits in an u32.
         2_usize.pow(self as u32)
     }
 }
@@ -244,6 +245,8 @@ impl From<Digits> for Fixes {
                 }
                 _ => unreachable!(),
             };
+
+            // CAST: the enum fits in a usize.
             *n = m as usize;
         });
 

@@ -183,7 +183,7 @@ macro_rules! impl_signed_integer {
 
                     // Self::MIN is guaranteed to be a power of 2; thus, the GCD of Self::MIN and
                     // any other non-zero Self, p, is the greatest power of 2 that divides p.
-                    (Self::MIN, p) | (p, Self::MIN) => ((1 as Self) << p.trailing_zeros()).abs(),
+                    (Self::MIN, p) | (p, Self::MIN) => (Self::ONE << p.trailing_zeros()).abs(),
 
                     _ => {
                         let k = (m | n).trailing_zeros();
