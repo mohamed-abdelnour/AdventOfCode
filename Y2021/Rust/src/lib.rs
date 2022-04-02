@@ -61,13 +61,13 @@ macro_rules! newtype_into_inner {
     };
 }
 
+/// Calls a macro on each token tree.
+#[macro_export]
 macro_rules! repeat_macro {
     ($macro:ident for $($x:tt)+) => {
         $($macro!($x);)+
     };
 }
-
-pub(crate) use repeat_macro;
 
 /// An entry point for the puzzle binaries.
 pub fn run(puzzle: impl Puzzle) -> anyhow::Result<()> {
