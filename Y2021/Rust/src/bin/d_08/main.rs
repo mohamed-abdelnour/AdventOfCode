@@ -6,6 +6,7 @@
 use std::str::FromStr;
 
 use aoc_2021::bits::{Bit, Bits};
+use aoc_2021::iterator::Array;
 use aoc_2021::pair::Pair;
 use aoc_2021::transpose::ArrayBitTranspose;
 use aoc_2021::{define_error, Puzzle};
@@ -153,13 +154,12 @@ impl FromStr for Digits {
     type Err = ParseSegmentError;
 
     fn from_str(ds: &str) -> Result<Self, Self::Err> {
-        let mut digits: [usize; DIGITS] = Default::default();
         let mut critical: Critical = Default::default();
 
-        ds.split_ascii_whitespace().enumerate().try_for_each(
-            |(i, digit)| -> Result<_, ParseSegmentError> {
+        let digits = ds
+            .split_ascii_whitespace()
+            .map(|digit| -> Result<_, ParseSegmentError> {
                 let Digit(digit) = digit.parse()?;
-                digits[i] = digit;
 
                 match digit.count_ones() {
                     2 => critical.one = digit,
@@ -168,9 +168,10 @@ impl FromStr for Digits {
                     _ => {}
                 }
 
-                Ok(())
-            },
-        )?;
+                Ok(digit)
+            })
+            .collect::<Result<Array<_, DIGITS>, _>>()?
+            .into_inner();
 
         Ok(Self { digits, critical })
     }
@@ -287,22 +288,22 @@ impl FromStr for Output {
     type Err = ParseSegmentError;
 
     fn from_str(os: &str) -> Result<Self, Self::Err> {
-        let mut output: [usize; OUTPUT] = Default::default();
         let mut solution: Pair<usize> = Default::default();
 
-        os.split_ascii_whitespace().enumerate().try_for_each(
-            |(i, digit)| -> Result<_, ParseSegmentError> {
+        let output = os
+            .split_ascii_whitespace()
+            .map(|digit| -> Result<_, ParseSegmentError> {
                 let Digit(digit) = digit.parse()?;
-                output[i] = digit;
 
                 // Part 1: update the count for each digit with a unique number of ones.
                 if matches!(digit.count_ones(), 2 | 3 | 4 | 7) {
                     solution.0 += 1;
                 }
 
-                Ok(())
-            },
-        )?;
+                Ok(digit)
+            })
+            .collect::<Result<Array<_, OUTPUT>, _>>()?
+            .into_inner();
 
         Ok(Self { output, solution })
     }

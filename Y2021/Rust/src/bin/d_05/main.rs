@@ -6,10 +6,9 @@
 use std::num::TryFromIntError;
 use std::str::FromStr;
 
-use aoc_2021::define_error;
-use aoc_2021::num::Integer;
+use aoc_2021::integer::Integer;
 use aoc_2021::pair::Pair;
-use aoc_2021::Puzzle;
+use aoc_2021::{define_error, Puzzle};
 
 define_error!(
     PositionFormatError,
@@ -35,11 +34,8 @@ trait ToPair {
 
 impl ToPair for &str {
     fn to_pair(&self) -> anyhow::Result<Point> {
-        let point = self
-            .split_once(',')
-            .ok_or(PositionFormatError)?
-            .try_into()?;
-        Ok(point)
+        let (x, y) = self.split_once(',').ok_or(PositionFormatError)?;
+        Ok(Pair(x.parse()?, y.parse()?))
     }
 }
 

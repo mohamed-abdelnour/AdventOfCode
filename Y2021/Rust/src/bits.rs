@@ -1,6 +1,7 @@
 use std::ops::Not;
 
 use crate::define_error;
+use crate::integer::repeat_macro_for_integral;
 
 define_error!(ParseBinError, r#"a bit must be either "0" or "1""#);
 
@@ -77,7 +78,7 @@ macro_rules! impl_bin {
     };
 }
 
-crate::repeat_macro!(impl_bin for u32 usize);
+repeat_macro_for_integral!(impl_bin);
 
 #[cfg(test)]
 mod tests {

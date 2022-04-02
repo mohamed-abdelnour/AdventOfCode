@@ -1,6 +1,7 @@
+use std::iter;
 use std::ops::{Add, AddAssign, Mul, Sub, SubAssign};
-use std::str::FromStr;
 
+use crate::integer::Integer;
 use crate::repeat_macro;
 
 /// A generic, homogeneous pair type.
@@ -37,21 +38,28 @@ impl<T> Pair<T> {
     {
         self.fold(Mul::mul)
     }
-}
 
-impl<T: FromStr> TryFrom<(&str, &str)> for Pair<T> {
-    type Error = T::Err;
+    /// Returns an iterator over the pairs adjacent to this one.
+    pub fn adjacent(self) -> impl Iterator<Item = Self>
+    where
+        T: Integer,
+    {
+        let vertical = self.0.adjacent().zip(iter::repeat(self.1));
+        let horizontal = iter::repeat(self.0).zip(self.1.adjacent());
 
-    fn try_from((x, y): (&str, &str)) -> Result<Self, Self::Error> {
-        let x = x.parse()?;
-        let y = y.parse()?;
-        Ok(Self(x, y))
+        vertical.chain(horizontal).map(Into::into)
     }
 }
 
 impl<T> From<Pair<T>> for (T, T) {
     fn from(Pair(x, y): Pair<T>) -> Self {
         (x, y)
+    }
+}
+
+impl<T> From<(T, T)> for Pair<T> {
+    fn from((x, y): (T, T)) -> Self {
+        Pair(x, y)
     }
 }
 
@@ -102,6 +110,18 @@ mod tests {
     #[test]
     fn product() {
         assert_eq!(Pair(2, 7).product(), 14);
+    }
+
+    #[test]
+    fn adjacent() {
+        let adjacent = Pair(2_usize, 3).adjacent().collect::<Vec<_>>();
+        assert_eq!(adjacent, [Pair(1, 3), Pair(3, 3), Pair(2, 2), Pair(2, 4),]);
+    }
+
+    #[test]
+    fn adjacent_overflow() {
+        let adjacent = Pair(0_usize, 0).adjacent().collect::<Vec<_>>();
+        assert_eq!(adjacent, [Pair(1, 0), Pair(0, 1)]);
     }
 
     #[test]

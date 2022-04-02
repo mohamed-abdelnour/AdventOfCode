@@ -7,14 +7,22 @@ use std::{env, fs};
 
 /// A module providing an interface for bit operations.
 pub mod bits;
+
 /// A module providing an interface for dealing with errors.
 pub mod errors;
-/// A module providing an interface for numeric types.
-pub mod num;
+
+/// A module providing an interface for integral types.
+pub mod integer;
+
+/// A module providing iterators.
+pub mod iterator;
+
 /// A module that defines a generic, homogeneous pair type.
 pub mod pair;
+
 /// A module providing an interface for searching over types.
 pub mod search;
+
 /// A module providing an interface for transposing matrix-like types.
 pub mod transpose;
 
@@ -40,6 +48,17 @@ impl<T: Display, const N: usize> Solution for [T; N] {
             .map(|(i, v)| (i + 1, v))
             .for_each(|(i, v)| println!("  Part {i}: {v}"));
     }
+}
+
+/// Unwraps the inner value of a new type.
+#[macro_export]
+macro_rules! newtype_into_inner {
+    ($inner:tt) => {
+        #[allow(missing_docs)]
+        pub fn into_inner(self) -> $inner {
+            self.0
+        }
+    };
 }
 
 macro_rules! repeat_macro {

@@ -1,9 +1,20 @@
 use std::mem;
 
-use crate::repeat_macro;
+use crate::iterator::adjacent::Adjacent;
 
-/// An interface for integer types.
-pub trait Integer {
+mod integer_markers;
+use integer_markers::IntegerMarker;
+
+mod integer_pass_through;
+use integer_pass_through::IntegerPassThrough;
+
+/// An interface for integral types.
+pub trait Integer: IntegerMarker + IntegerPassThrough {
+    /// Returns an iterator over the two numbers adjacent to `self`.
+    fn adjacent(self) -> Adjacent<Self> {
+        self.into()
+    }
+
     /// Calculates the greatest common divisor of two integers: `self` and `other`.
     //
     // This uses Stein's algorithm to compute the GCD. A few identities are used to reduce the
@@ -45,8 +56,46 @@ pub trait Integer {
     fn gcd(&self, other: &Self) -> Self;
 }
 
+#[cfg(test)]
+macro_rules! impl_integer_tests {
+    ($type:ty) => {
+        mod adjacent {
+            use super::*;
+
+            fn get_adjacent<N: Integer>(n: N) -> Vec<N> {
+                Adjacent::from(n).collect()
+            }
+
+            fn check<N>()
+            where
+                N: Integer + TryFrom<u8>,
+                N::Error: std::fmt::Debug,
+            {
+                assert_eq!(get_adjacent(N::MIN), [N::MIN + N::ONE]);
+                assert_eq!(get_adjacent(N::MAX), [N::MAX - N::ONE]);
+
+                let two = N::try_from(2).unwrap();
+
+                assert_eq!(get_adjacent(N::MIN + N::ONE), [N::MIN, N::MIN + two]);
+                assert_eq!(get_adjacent(N::MAX - N::ONE), [N::MAX - two, N::MAX]);
+            }
+
+            #[test]
+            fn adjacent() {
+                check::<$type>();
+
+                let max = i8::MAX as $type / 2;
+
+                (1..max).for_each(|n| {
+                    assert_eq!(n.adjacent().sum::<$type>(), 2 * n);
+                });
+            }
+        }
+    };
+}
+
 macro_rules! impl_unsigned_integer {
-    (($type:ty, $tests:ident)) => {
+    ($type:ident) => {
         impl Integer for $type {
             fn gcd(&self, &(mut n): &Self) -> Self {
                 let &(mut m) = self;
@@ -95,8 +144,10 @@ macro_rules! impl_unsigned_integer {
         }
 
         #[cfg(test)]
-        mod $tests {
+        mod $type {
             use super::*;
+
+            impl_integer_tests!($type);
 
             #[test]
             fn unsigned_gcd() {
@@ -116,7 +167,7 @@ macro_rules! impl_unsigned_integer {
 }
 
 macro_rules! impl_signed_integer {
-    (($type:ty, $tests:ident)) => {
+    ($type:ident) => {
         impl Integer for $type {
             // This is similar to the unsigned algorithm with a few exceptions:
             // 1. abs() is called on m and n as needed to ensure that the GCD is positive.
@@ -157,8 +208,10 @@ macro_rules! impl_signed_integer {
         }
 
         #[cfg(test)]
-        mod $tests {
+        mod $type {
             use super::*;
+
+            impl_integer_tests!($type);
 
             #[test]
             fn signed_gcd() {
@@ -202,12 +255,34 @@ macro_rules! impl_signed_integer {
     };
 }
 
-repeat_macro! {
-    impl_unsigned_integer for
-        (usize, usize_tests)
+macro_rules! repeat_macro_for_unsigned_integral {
+    ($macro:ident) => {
+        $crate::repeat_macro! {
+            $macro for
+                u8 u16 u32 u64 u128 usize
+        }
+    };
 }
 
-repeat_macro! {
-    impl_signed_integer for
-        (i16, i16_tests)
+macro_rules! repeat_macro_for_signed_integral {
+    ($macro:ident) => {
+        $crate::repeat_macro! {
+            $macro for
+                i8 i16 i32 i64 i128 isize
+        }
+    };
 }
+
+macro_rules! repeat_macro_for_integral {
+    ($macro:ident) => {
+        $crate::integer::repeat_macro_for_unsigned_integral!($macro);
+        $crate::integer::repeat_macro_for_signed_integral!($macro);
+    };
+}
+
+pub(crate) use repeat_macro_for_integral;
+pub(crate) use repeat_macro_for_signed_integral;
+pub(crate) use repeat_macro_for_unsigned_integral;
+
+repeat_macro_for_unsigned_integral!(impl_unsigned_integer);
+repeat_macro_for_signed_integral!(impl_signed_integer);

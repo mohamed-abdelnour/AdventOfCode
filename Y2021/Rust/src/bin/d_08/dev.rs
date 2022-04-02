@@ -1,3 +1,5 @@
+use aoc_2021::iterator::Array;
+
 use super::*;
 
 /// The display, as described in the puzzle.
@@ -18,23 +20,26 @@ const DISPLAY: [[usize; SEGMENTS]; DIGITS] = [
 
 /// Encodes each digit and finds the number of ones per encoded segment.
 pub fn encode() {
-    let mut encoded = [usize::default(); DIGITS];
-
-    DISPLAY.iter().enumerate().for_each(|(digit, row)| {
-        let enc = row.iter().rfold(0, |acc, x| (acc << 1) + x);
-        assert_eq!(Digit(enc).decode(), digit);
-        encoded[digit] = enc;
-        println!("{enc} => {digit},");
-    });
+    let encoded = DISPLAY
+        .iter()
+        .enumerate()
+        .map(|(digit, row)| {
+            let enc = row.iter().rfold(0, |acc, x| (acc << 1) + x);
+            assert_eq!(Digit(enc).decode(), digit);
+            println!("{enc} => {digit},");
+            enc
+        })
+        .collect::<Array<_, DIGITS>>()
+        .into_inner();
 
     println!();
 
-    let mut ones = [u32::default(); SEGMENTS];
-    encoded
+    let ones = encoded
         .bit_transpose::<SEGMENTS>()
         .into_iter()
-        .enumerate()
-        .for_each(|(segment, t)| ones[segment] = t.count_ones());
+        .map(usize::count_ones)
+        .collect::<Array<_, SEGMENTS>>()
+        .into_inner();
 
     println!("ones: {:?}", ones);
 }
