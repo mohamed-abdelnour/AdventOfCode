@@ -85,7 +85,7 @@ pub fn run(puzzle: impl Puzzle) -> anyhow::Result<()> {
 macro_rules! main {
     ($puzzle:ident) => {
         fn main() -> anyhow::Result<()> {
-            aoc_2021::run($puzzle)
+            $crate::run($puzzle)
         }
     };
 }
