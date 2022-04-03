@@ -134,7 +134,7 @@ impl Entry {
     /// Checks if parsing `current` corrupts this entry and computes the entry's score in that
     /// case.
     fn corrupts(&mut self, current: Char) {
-        if self.stack.pop().map_or(true, |delim| delim != current) {
+        if self.stack.pop().map_or(true, |delim| !delim != current) {
             let EntryScore(score) = current.into();
             self.state = EntryState::Corrupted(score);
         }
@@ -182,7 +182,7 @@ impl FromStr for Scores {
                         // corrupted.
                         match c {
                             Char::Left(_) => entry.stack.push(c),
-                            Char::Right(_) => entry.corrupts(!c),
+                            Char::Right(_) => entry.corrupts(c),
                         }
 
                         // If the entry is corrupted, update the score and short-circuit.
