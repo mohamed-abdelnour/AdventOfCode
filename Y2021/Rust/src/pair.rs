@@ -1,5 +1,5 @@
 use std::iter;
-use std::ops::{Add, AddAssign, Mul, Sub, SubAssign};
+use std::ops::{Add, AddAssign, Sub, SubAssign};
 
 use crate::integer::Integer;
 use crate::repeat_macro;
@@ -22,21 +22,6 @@ impl<T> Pair<T> {
     {
         f(&mut self.0, m);
         f(&mut self.1, n);
-    }
-
-    fn fold<U, F>(self, f: F) -> U
-    where
-        F: FnOnce(T, T) -> U,
-    {
-        f(self.0, self.1)
-    }
-
-    /// Multiplies the two elements in the pair.
-    pub fn product(self) -> T::Output
-    where
-        T: Mul,
-    {
-        self.fold(Mul::mul)
     }
 
     /// Returns an iterator over the pairs adjacent to this one.
@@ -66,6 +51,15 @@ impl<T> From<(T, T)> for Pair<T> {
 impl<T> From<Pair<T>> for [T; 2] {
     fn from(Pair(x, y): Pair<T>) -> Self {
         [x, y]
+    }
+}
+
+impl<T> IntoIterator for Pair<T> {
+    type Item = T;
+    type IntoIter = <[T; 2] as IntoIterator>::IntoIter;
+
+    fn into_iter(self) -> Self::IntoIter {
+        <[T; 2]>::from(self).into_iter()
     }
 }
 
@@ -109,7 +103,7 @@ mod tests {
 
     #[test]
     fn product() {
-        assert_eq!(Pair(2, 7).product(), 14);
+        assert_eq!(Pair(2, 7).into_iter().product::<u8>(), 14);
     }
 
     #[test]
