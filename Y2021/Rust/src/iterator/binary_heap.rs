@@ -35,7 +35,7 @@ mod tests {
     fn heap() {
         const MAX: usize = 10;
 
-        let array = (0..MAX).collect::<Array<_, MAX>>().into_inner();
+        let array = (0..MAX).collect::<Array<_, MAX>>().0;
         let heap = BinaryHeap::from(array);
         heap.iter_heap().enumerate().for_each(|(i, v)| {
             assert_eq!(MAX - 1 - i, v);

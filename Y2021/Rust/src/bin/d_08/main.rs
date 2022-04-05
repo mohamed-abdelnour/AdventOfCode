@@ -172,7 +172,7 @@ impl FromStr for Digits {
                 Ok(digit)
             })
             .collect::<Result<Array<_, DIGITS>, _>>()?
-            .into_inner();
+            .0;
 
         Ok(Self { digits, critical })
     }
@@ -306,7 +306,7 @@ impl FromStr for Output {
                 Ok(digit)
             })
             .collect::<Result<Array<_, OUTPUT>, _>>()?
-            .into_inner();
+            .0;
 
         Ok(Self { output, solution })
     }

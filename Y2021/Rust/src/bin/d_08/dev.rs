@@ -30,7 +30,7 @@ pub fn encode() {
             enc
         })
         .collect::<Array<_, DIGITS>>()
-        .into_inner();
+        .0;
 
     println!();
 
@@ -39,7 +39,7 @@ pub fn encode() {
         .into_iter()
         .map(usize::count_ones)
         .collect::<Array<_, SEGMENTS>>()
-        .into_inner();
+        .0;
 
     println!("ones: {:?}", ones);
 }

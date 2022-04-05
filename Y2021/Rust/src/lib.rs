@@ -50,17 +50,6 @@ impl<T: Display, const N: usize> Solution for [T; N] {
     }
 }
 
-/// Unwraps the inner value of a new type.
-#[macro_export]
-macro_rules! newtype_into_inner {
-    ($inner:tt) => {
-        #[allow(missing_docs)]
-        pub fn into_inner(self) -> $inner {
-            self.0
-        }
-    };
-}
-
 /// Calls a macro on each token tree.
 #[macro_export]
 macro_rules! repeat_macro {

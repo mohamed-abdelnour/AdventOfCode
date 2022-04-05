@@ -1,5 +1,3 @@
-use crate::newtype_into_inner;
-
 /// A module providing an iterator over the two numbers adjacent to any integer.
 pub mod adjacent;
 
@@ -8,11 +6,7 @@ pub mod binary_heap;
 
 /// A wrapper around an array that implements `FromIterator<T> where T: Copy + Default`;
 #[derive(Debug)]
-pub struct Array<T, const N: usize>([T; N]);
-
-impl<T, const N: usize> Array<T, N> {
-    newtype_into_inner!([T; N]);
-}
+pub struct Array<T, const N: usize>(pub [T; N]);
 
 impl<const N: usize, T> FromIterator<T> for Array<T, N>
 where
@@ -49,7 +43,7 @@ mod tests {
             .map(|s| s.parse())
             .collect::<Result<Array<usize, 2>, _>>()
             .unwrap()
-            .into_inner();
+            .0;
 
         assert_eq!([0, 1], right);
         assert_eq!(left, right);
