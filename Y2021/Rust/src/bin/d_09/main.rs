@@ -117,7 +117,7 @@ impl Solution {
                 let point: Point = t.into();
 
                 let low_point = point
-                    .adjacent()
+                    .adjacent_cardinal()
                     .filter(|p| self.bounds.is_gt_than(p))
                     .all(|Pair(r, c)| self.grid[r][c] > digit);
 
@@ -144,7 +144,7 @@ impl Solution {
                 while !adjacent.is_empty() {
                     adjacent = adjacent
                         .into_iter()
-                        .flat_map(Pair::adjacent)
+                        .flat_map(Pair::adjacent_cardinal)
                         .filter(|&p @ Pair(r, c)| {
                             self.bounds.is_gt_than(&p)
                                 && self.grid[r][c] != Some(MAX_HEIGHT)

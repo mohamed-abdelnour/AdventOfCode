@@ -23,16 +23,26 @@ impl<T> Pair<T> {
         f(&mut self.0, m);
         f(&mut self.1, n);
     }
+}
 
-    /// Returns an iterator over the pairs adjacent to this one.
-    pub fn adjacent(self) -> impl Iterator<Item = Self>
-    where
-        T: Integer,
-    {
+impl<N: Integer> Pair<N> {
+    /// Returns an iterator over the pairs adjacent to this one in the four cardinal directions.
+    pub fn adjacent_cardinal(self) -> impl Iterator<Item = Self> {
         let vertical = self.0.adjacent().zip(iter::repeat(self.1));
         let horizontal = iter::repeat(self.0).zip(self.1.adjacent());
+        vertical.chain(horizontal).map(Pair::from)
+    }
 
-        vertical.chain(horizontal).map(Into::into)
+    /// Returns an iterator over the pairs adjacent to this one in the four ordinal directions.
+    fn adjacent_ordinal(self) -> impl Iterator<Item = Self> {
+        self.0
+            .adjacent()
+            .flat_map(move |row| iter::repeat(row).zip(self.1.adjacent()).map(Pair::from))
+    }
+
+    /// Returns an iterator over the pairs adjacent to this one.
+    pub fn adjacent(self) -> impl Iterator<Item = Self> {
+        self.adjacent_cardinal().chain(self.adjacent_ordinal())
     }
 }
 
@@ -107,15 +117,21 @@ mod tests {
     }
 
     #[test]
-    fn adjacent() {
-        let adjacent = Pair(2_usize, 3).adjacent().collect::<Vec<_>>();
-        assert_eq!(adjacent, [Pair(1, 3), Pair(3, 3), Pair(2, 2), Pair(2, 4),]);
+    fn adjacent_cardinal() {
+        let cardinals = Pair(2_usize, 3).adjacent_cardinal().collect::<Vec<_>>();
+        assert_eq!(cardinals, [Pair(1, 3), Pair(3, 3), Pair(2, 2), Pair(2, 4),]);
     }
 
     #[test]
-    fn adjacent_overflow() {
-        let adjacent = Pair(0_usize, 0).adjacent().collect::<Vec<_>>();
-        assert_eq!(adjacent, [Pair(1, 0), Pair(0, 1)]);
+    fn adjacent_cardinal_overflow() {
+        let cardinals = Pair(0_usize, 0).adjacent_cardinal().collect::<Vec<_>>();
+        assert_eq!(cardinals, [Pair(1, 0), Pair(0, 1)]);
+    }
+
+    #[test]
+    fn adjacent_ordinal() {
+        let ordinals = Pair(2_usize, 3).adjacent_ordinal().collect::<Vec<_>>();
+        assert_eq!(ordinals, [Pair(1, 2), Pair(1, 4), Pair(3, 2), Pair(3, 4),]);
     }
 
     #[test]
