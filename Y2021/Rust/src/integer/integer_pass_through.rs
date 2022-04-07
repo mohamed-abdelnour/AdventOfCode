@@ -20,11 +20,11 @@ macro_rules! impl_integer_pass_through {
             const ONE: Self = 1;
 
             fn checked_add(self, rhs: Self) -> Option<Self> {
-                self.checked_add(rhs)
+                <$type>::checked_add(self, rhs)
             }
 
             fn checked_sub(self, rhs: Self) -> Option<Self> {
-                self.checked_sub(rhs)
+                <$type>::checked_sub(self, rhs)
             }
         }
     };

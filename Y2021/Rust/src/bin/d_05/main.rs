@@ -101,7 +101,7 @@ impl Segment {
 
     /// Increments the number of overlaps for each point in this segment and the count of overlaps
     /// that are greater than or equal to 2.
-    fn count(mut self, counts: &mut Vec<Vec<usize>>, count: &mut usize) -> TryFromIntResult<()> {
+    fn count(mut self, counts: &mut [Vec<usize>], count: &mut usize) -> TryFromIntResult<()> {
         self.try_for_each(|Pair(x, y)| {
             let x: usize = x.try_into()?;
             let y: usize = y.try_into()?;
