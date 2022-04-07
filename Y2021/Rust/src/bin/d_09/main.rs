@@ -3,17 +3,15 @@
 
 //! [Day 09.](https://adventofcode.com/2021/day/9)
 
-use std::cmp::Ordering;
 use std::collections::BinaryHeap;
 use std::str::FromStr;
 use std::{iter, mem};
 
-use aoc_2021::errors::EmptyInputError;
+use aoc_2021::errors::{EmptyInputError, ParseDigitError};
 use aoc_2021::iterator::binary_heap::BinaryHeapExt;
-use aoc_2021::pair::Pair;
+use aoc_2021::pair::{greater::Greater, Pair};
 use aoc_2021::{define_error, Puzzle};
 
-define_error!(ParseDigitError, "a digit must be in '0'..='9'");
 define_error!(NotEnoughBasinsError, "less then 3 basins were found");
 
 /// The highest a location can be.
@@ -28,31 +26,6 @@ type Point = Pair<usize>;
 /// The height of a particular location. This is set to `None` whenever the cell is visited while
 /// counting the sizes of the basins (to avoid counting a location more than once).
 type Cell = Option<usize>;
-
-/// A wrapper around `Point` that implements `std::cmp::PartialOrd`.
-#[derive(Debug, Default, PartialEq)]
-struct PointWrapper(Point);
-
-impl PointWrapper {
-    /// Returns whether or not this point is greater thatn another one.
-    fn is_gt_than(&self, &other: &Point) -> bool {
-        self.partial_cmp(&Self(other))
-            .map_or(false, Ordering::is_gt)
-    }
-}
-
-impl PartialOrd for PointWrapper {
-    // This is only used to filter points that are in bounds; thus, only Ordering::Greater is
-    // defined.
-    fn partial_cmp(&self, Self(other): &Self) -> Option<Ordering> {
-        let Self(point) = self;
-        if point.0 > other.0 && point.1 > other.1 {
-            Some(Ordering::Greater)
-        } else {
-            None
-        }
-    }
-}
 
 /// A wrapper around a row in the grid that implements `std::str::FromStr`.
 #[derive(Debug)]
@@ -97,7 +70,7 @@ struct Solution {
     /// The height map.
     grid: Vec<Vec<Cell>>,
     /// The bounds of the height map.
-    bounds: PointWrapper,
+    bounds: Point,
 
     /// The positions of all the low points.
     low_points: Vec<Point>,
@@ -108,7 +81,7 @@ struct Solution {
 impl Solution {
     /// Finds the positions of all the low points.
     fn find_low_points(&mut self) {
-        let PointWrapper(Pair(r_max, c_max)) = self.bounds;
+        let Pair(r_max, c_max) = self.bounds;
         self.low_points = (0..r_max)
             .flat_map(|r| iter::repeat(r).zip(0..c_max))
             .flat_map(|t @ (r, c)| {
@@ -118,7 +91,7 @@ impl Solution {
 
                 let low_point = point
                     .adjacent_cardinal()
-                    .filter(|p| self.bounds.is_gt_than(p))
+                    .filter(|p| self.bounds.gt(p))
                     .all(|Pair(r, c)| self.grid[r][c] > digit);
 
                 if low_point {
@@ -146,7 +119,7 @@ impl Solution {
                         .into_iter()
                         .flat_map(Pair::adjacent_cardinal)
                         .filter(|&p @ Pair(r, c)| {
-                            self.bounds.is_gt_than(&p)
+                            self.bounds.gt(&p)
                                 && self.grid[r][c] != Some(MAX_HEIGHT)
                                 && ({
                                     let flag = self.grid[r][c].is_some();
@@ -176,7 +149,7 @@ impl FromStr for Solution {
 
     fn from_str(s: &str) -> Result<Self, Self::Err> {
         let Grid(grid) = s.parse()?;
-        let bounds = PointWrapper(Pair(grid.len(), grid.get(0).ok_or(EmptyInputError)?.len()));
+        let bounds = Pair(grid.len(), grid.get(0).ok_or(EmptyInputError)?.len());
 
         Ok(Self {
             grid,

@@ -4,6 +4,9 @@ use std::ops::{Add, AddAssign, Sub, SubAssign};
 use crate::integer::Integer;
 use crate::repeat_macro;
 
+/// A module providing an interface for finding the greatest of two pairs.
+pub mod greater;
+
 /// A generic, homogeneous pair type.
 #[derive(Clone, Copy, Debug, Default, Eq, Hash, PartialEq)]
 pub struct Pair<T>(pub T, pub T);
