@@ -185,6 +185,10 @@ struct MemoGraph {
 
 impl MemoGraph {
     /// Returns the number of paths from `start` to `end` for a given `allowance`.
+    //
+    // Note that this fixes the start node to `start`; this means that it leaves
+    // `self.state.visited` empty. If the starting node were a small cave, `self.state.visited`
+    // would have to be cleared after each call.
     fn deep_dfs(&mut self, allowance: u8) -> u32 {
         self.graph
             .deep_dfs(Cave::Other(0), allowance, &mut self.state)
