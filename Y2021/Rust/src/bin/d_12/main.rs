@@ -31,8 +31,7 @@ impl From<Cave> for u8 {
 
 impl From<Cave> for usize {
     fn from(cave: Cave) -> Self {
-        // CAST: a u8 fits in a usize.
-        u8::from(cave) as Self
+        u8::from(cave).into()
     }
 }
 
