@@ -13,6 +13,7 @@ pub mod errors;
 
 /// A module providing an interface for integral types.
 pub mod integer;
+use integer::Integer;
 
 /// A module providing iterators.
 pub mod iterator;
@@ -41,12 +42,23 @@ pub trait Solution {
     fn print(&self);
 }
 
+fn indexed_print<N: Integer, T: Display>(i: &mut N, t: &T) {
+    *i += N::ONE;
+    println!("  Part {i}: {t}");
+}
+
 impl<T: Display, const N: usize> Solution for [T; N] {
     fn print(&self) {
-        self.iter()
-            .enumerate()
-            .map(|(i, v)| (i + 1, v))
-            .for_each(|(i, v)| println!("  Part {i}: {v}"));
+        let mut i = 0_u8;
+        self.iter().for_each(|t| indexed_print(&mut i, t));
+    }
+}
+
+impl<T: Display, U: Display> Solution for (T, U) {
+    fn print(&self) {
+        let mut i = 0_u8;
+        indexed_print(&mut i, &self.0);
+        indexed_print(&mut i, &self.1);
     }
 }
 
