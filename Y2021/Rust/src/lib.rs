@@ -36,29 +36,36 @@ pub trait Puzzle {
     fn solve(&self, input: String) -> anyhow::Result<Self::Solution>;
 }
 
+#[derive(Debug, Default)]
+struct IndexedPrinter<N: Integer> {
+    index: N,
+}
+
+impl<N: Integer> IndexedPrinter<N> {
+    fn print<T: Display>(&mut self, t: &T) {
+        self.index += N::ONE;
+        println!("  Part {}: {}", self.index, t);
+    }
+}
+
 /// An interface for the puzzle solutions.
 pub trait Solution {
     /// Prints the solutions.
     fn print(&self);
 }
 
-fn indexed_print<N: Integer, T: Display>(i: &mut N, t: &T) {
-    *i += N::ONE;
-    println!("  Part {i}: {t}");
-}
-
 impl<T: Display, const N: usize> Solution for [T; N] {
     fn print(&self) {
-        let mut i = 0_u8;
-        self.iter().for_each(|t| indexed_print(&mut i, t));
+        let mut i = IndexedPrinter::<u8>::default();
+        self.iter().for_each(|t| i.print(t));
     }
 }
 
 impl<T: Display, U: Display> Solution for (T, U) {
     fn print(&self) {
-        let mut i = 0_u8;
-        indexed_print(&mut i, &self.0);
-        indexed_print(&mut i, &self.1);
+        let mut i = IndexedPrinter::<u8>::default();
+        i.print(&self.0);
+        i.print(&self.1);
     }
 }
 
