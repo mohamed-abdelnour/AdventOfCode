@@ -24,6 +24,9 @@ pub mod pair;
 /// A module providing an interface for searching over types.
 pub mod search;
 
+/// A module providing an extension trait to the `str` type.
+pub mod str;
+
 /// A module providing an interface for transposing matrix-like types.
 pub mod transpose;
 

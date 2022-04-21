@@ -9,6 +9,7 @@ use std::ops::ControlFlow;
 use std::str::FromStr;
 
 use aoc_2021::pair::Pair;
+use aoc_2021::str::StrExt;
 use aoc_2021::{define_error, Puzzle};
 
 define_error!(BingoFormatError, "did not find a blank line");
@@ -168,7 +169,10 @@ impl FromStr for Game {
     type Err = ParseIntError;
 
     fn from_str(boards: &str) -> Result<Self, Self::Err> {
-        boards.split("\n\n").map(str::parse).collect()
+        boards
+            .split(boards.double_line_ending())
+            .map(str::parse)
+            .collect()
     }
 }
 
@@ -179,7 +183,9 @@ impl Puzzle for D04 {
     type Solution = [u32; 2];
 
     fn solve(&self, input: String) -> anyhow::Result<Self::Solution> {
-        let (order, boards) = input.split_once("\n\n").ok_or(BingoFormatError)?;
+        let (order, boards) = input
+            .split_once((&*input).double_line_ending())
+            .ok_or(BingoFormatError)?;
         let order: Vec<_> = order.split(',').map(str::parse).collect::<Result<_, _>>()?;
         Ok(boards.parse::<Game>()?.play(order))
     }
