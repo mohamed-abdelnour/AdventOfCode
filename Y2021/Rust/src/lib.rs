@@ -51,6 +51,9 @@ impl<N: Integer> IndexedPrinter<N> {
     }
 }
 
+/// A marker trait for types that customise how they are displayed as a solution.
+pub trait SolutionMarker: Display {}
+
 /// An interface for the puzzle solutions.
 pub trait Solution {
     /// Prints the solutions.
@@ -69,6 +72,12 @@ impl<T: Display, U: Display> Solution for (T, U) {
         let mut i = IndexedPrinter::<u8>::default();
         i.print(&self.0);
         i.print(&self.1);
+    }
+}
+
+impl<S: SolutionMarker> Solution for S {
+    fn print(&self) {
+        println!("{self}");
     }
 }
 
