@@ -11,7 +11,7 @@ Input file: ../Inputs/D05/input.txt
   Part 2: 20299
 ```
 
-### Sample
+### Samples
 
 ```console
 $ ./target/release/d_05 ../Inputs/D05/sample.txt

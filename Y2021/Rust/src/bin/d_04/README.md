@@ -11,7 +11,7 @@ Input file: ../Inputs/D04/input.txt
   Part 2: 13158
 ```
 
-### Sample
+### Samples
 
 ```console
 $ ./target/release/d_04 ../Inputs/D04/sample.txt
