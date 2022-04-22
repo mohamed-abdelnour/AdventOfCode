@@ -8,7 +8,7 @@ use std::str::FromStr;
 use std::{iter, mem};
 
 use aoc_2021::errors::{EmptyInputError, ParseDigitError};
-use aoc_2021::iterator::binary_heap::BinaryHeapExt;
+use aoc_2021::extension_traits::binary_heap::BinaryHeapExt;
 use aoc_2021::pair::{greater::Greater, Pair};
 use aoc_2021::{define_error, Puzzle};
 

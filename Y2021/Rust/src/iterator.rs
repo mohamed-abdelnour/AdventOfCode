@@ -1,9 +1,6 @@
 /// A module providing an iterator over the two numbers adjacent to any integer.
 pub mod adjacent;
 
-/// A module providing an alternative iterator over `std::collections::BinaryHeap`;
-pub mod binary_heap;
-
 /// A wrapper around an array that implements `FromIterator<T> where T: Copy + Default`;
 #[derive(Debug)]
 pub struct Array<T, const N: usize>(pub [T; N]);

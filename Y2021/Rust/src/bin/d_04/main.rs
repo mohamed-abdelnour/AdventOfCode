@@ -8,8 +8,8 @@ use std::num::ParseIntError;
 use std::ops::ControlFlow;
 use std::str::FromStr;
 
+use aoc_2021::extension_traits::str::StrExt;
 use aoc_2021::pair::Pair;
-use aoc_2021::str::StrExt;
 use aoc_2021::{define_error, Puzzle};
 
 define_error!(BingoFormatError, "did not find a blank line");
