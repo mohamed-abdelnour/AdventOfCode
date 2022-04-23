@@ -186,8 +186,8 @@ impl From<Sheet<'_>> for Vec<Vec<Position>> {
             let row = usize::from(dot.row);
             let col = usize::from(dot.col);
 
-            matrix.resize_to_fit(row);
-            matrix[row].resize_to_fit(col);
+            matrix.ensure_index(row);
+            matrix[row].ensure_index(col);
 
             matrix[row][col] = Position::Dot;
         });

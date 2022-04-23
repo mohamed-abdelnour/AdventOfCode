@@ -1,13 +1,18 @@
 /// An extension to `std::vec::Vec`.
-pub trait VecExt {
-    /// Ensures `self[max_index]` would not panic, resizing `self` if needed.
-    fn resize_to_fit(&mut self, max_index: usize);
+pub trait VecExt<T> {
+    /// Ensures `self[index]` would not panic, resizing `self` if needed.
+    fn ensure_index(&mut self, index: usize)
+    where
+        T: Clone + Default;
 }
 
-impl<T: Clone + Default> VecExt for Vec<T> {
-    fn resize_to_fit(&mut self, max_index: usize) {
-        if self.len() <= max_index {
-            self.resize(max_index + 1, Default::default());
+impl<T> VecExt<T> for Vec<T> {
+    fn ensure_index(&mut self, index: usize)
+    where
+        T: Clone + Default,
+    {
+        if self.len() <= index {
+            self.resize(index + 1, Default::default());
         }
     }
 }
@@ -19,7 +24,7 @@ mod tests {
     use super::*;
 
     #[test]
-    fn resize_to_fit() {
+    fn ensure_index() {
         let mut length: usize = 10;
 
         let mut vector = Vec::<u8>::with_capacity(length);
@@ -27,12 +32,12 @@ mod tests {
         for i in 1..3 {
             length *= i;
             let index = length - 1;
-            vector.resize_to_fit(index);
+            vector.ensure_index(index);
             assert_eq!(vector[index], u8::default());
             assert_eq!(vector.len(), length);
         }
 
-        vector.resize_to_fit(3);
+        vector.ensure_index(3);
         assert_eq!(vector.len(), length);
 
         let reference = iter::repeat(u8::default()).take(length).collect::<Vec<_>>();
