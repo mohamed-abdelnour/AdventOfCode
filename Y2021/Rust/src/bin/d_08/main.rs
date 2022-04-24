@@ -70,18 +70,18 @@ impl Segment {
     }
 }
 
-impl TryFrom<char> for Segment {
+impl TryFrom<u8> for Segment {
     type Error = ParseSegmentError;
 
-    fn try_from(c: char) -> Result<Self, Self::Error> {
-        match c {
-            'a' => Ok(Segment::A),
-            'b' => Ok(Segment::B),
-            'c' => Ok(Segment::C),
-            'd' => Ok(Segment::D),
-            'e' => Ok(Segment::E),
-            'f' => Ok(Segment::F),
-            'g' => Ok(Segment::G),
+    fn try_from(b: u8) -> Result<Self, Self::Error> {
+        match b {
+            b'a' => Ok(Segment::A),
+            b'b' => Ok(Segment::B),
+            b'c' => Ok(Segment::C),
+            b'd' => Ok(Segment::D),
+            b'e' => Ok(Segment::E),
+            b'f' => Ok(Segment::F),
+            b'g' => Ok(Segment::G),
             _ => Err(ParseSegmentError),
         }
     }
@@ -116,9 +116,9 @@ impl FromStr for Digit {
     fn from_str(digit: &str) -> Result<Self, Self::Err> {
         // Encode each segment in the digit and add them up to get a unique representation for this
         // digit. This used try_fold() instead of sum() to account for the possibility of encoding
-        // a char to fail (which will not happen given a correct input).
+        // a byte to fail (which will not happen given a correct input).
         let digit = digit
-            .chars()
+            .bytes()
             .try_fold(0, |acc, c| Segment::try_from(c).map(|s| acc + s.encode()))?;
         Ok(Self(digit))
     }

@@ -24,7 +24,7 @@ define_error!(
     "input must not be empty any must contain at least one line ending"
 );
 
-define_error!(ParseDigitError, "a digit must be in '0'..='9'");
+define_error!(ParseDigitError, "a digit must be in b'0'..=b'9'");
 
 /// An error that represents an unsatisfied expectation.
 #[derive(Debug)]

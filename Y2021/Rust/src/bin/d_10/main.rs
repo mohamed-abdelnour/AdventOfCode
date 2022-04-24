@@ -49,20 +49,20 @@ impl Not for Char {
     }
 }
 
-impl TryFrom<char> for Char {
+impl TryFrom<u8> for Char {
     type Error = IllegalCharacterError;
 
-    fn try_from(c: char) -> Result<Self, Self::Error> {
-        match c {
-            '(' => Ok(Self::Left(CharType::Parenthesis)),
-            '[' => Ok(Self::Left(CharType::Bracket)),
-            '{' => Ok(Self::Left(CharType::Brace)),
-            '<' => Ok(Self::Left(CharType::Chevron)),
+    fn try_from(b: u8) -> Result<Self, Self::Error> {
+        match b {
+            b'(' => Ok(Self::Left(CharType::Parenthesis)),
+            b'[' => Ok(Self::Left(CharType::Bracket)),
+            b'{' => Ok(Self::Left(CharType::Brace)),
+            b'<' => Ok(Self::Left(CharType::Chevron)),
 
-            ')' => Ok(Self::Right(CharType::Parenthesis)),
-            ']' => Ok(Self::Right(CharType::Bracket)),
-            '}' => Ok(Self::Right(CharType::Brace)),
-            '>' => Ok(Self::Right(CharType::Chevron)),
+            b')' => Ok(Self::Right(CharType::Parenthesis)),
+            b']' => Ok(Self::Right(CharType::Bracket)),
+            b'}' => Ok(Self::Right(CharType::Brace)),
+            b'>' => Ok(Self::Right(CharType::Chevron)),
 
             _ => Err(IllegalCharacterError),
         }
@@ -169,7 +169,7 @@ impl FromStr for Scores {
             let mut result = Ok(());
             let mut entry = Entry::default();
 
-            line.chars().try_for_each(|c| {
+            line.bytes().try_for_each(|c| {
                 c.try_into().map_or_else(
                     // Capture the error and short-circuit.
                     |err| {

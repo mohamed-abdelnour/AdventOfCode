@@ -83,12 +83,12 @@ impl FromStr for Instruction {
 
         let num = num.parse::<u16>()?;
 
-        text.chars()
+        text.bytes()
             .next_back()
             .ok_or(ParseInstructionError)
             .and_then(|direction| match direction {
-                'x' => Ok(Self::Left(num)),
-                'y' => Ok(Self::Up(num)),
+                b'x' => Ok(Self::Left(num)),
+                b'y' => Ok(Self::Up(num)),
                 _ => Err(ParseInstructionError),
             })
             .map_err(Into::into)

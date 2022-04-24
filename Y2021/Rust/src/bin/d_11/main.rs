@@ -6,7 +6,8 @@
 use std::str::FromStr;
 use std::{iter, mem};
 
-use aoc_2021::errors::{EmptyInputError, ParseDigitError};
+use aoc_2021::errors::EmptyInputError;
+use aoc_2021::extension_traits::u8::U8Ext;
 use aoc_2021::pair::{greater::Greater, Pair};
 use aoc_2021::Puzzle;
 
@@ -141,13 +142,9 @@ impl FromStr for Simulation {
         let grid = input
             .lines()
             .map(|l| {
-                l.chars()
-                    .map(|c| {
-                        // CAST: a digit in radix 10 fits in a u16.
-                        c.to_digit(10)
-                            .map(|c| Octopus::Stable(c as u16))
-                            .ok_or(ParseDigitError)
-                    })
+                // CAST: a u8 fits in a u16.
+                l.bytes()
+                    .map(|b| b.parse_digit().map(|b| Octopus::Stable(b as u16)))
                     .collect()
             })
             .collect::<Result<Vec<Vec<_>>, _>>()?;

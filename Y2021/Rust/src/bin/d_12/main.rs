@@ -129,7 +129,7 @@ impl FromStr for Graph {
         let nodes = nodes
             .into_iter()
             .map(|name| {
-                let cave = if name.chars().all(|c| c.is_ascii_lowercase()) {
+                let cave = if name.bytes().all(|b| b.is_ascii_lowercase()) {
                     Cave::Small(i)
                 } else {
                     Cave::Other(i)

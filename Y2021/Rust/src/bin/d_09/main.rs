@@ -8,7 +8,7 @@ use std::str::FromStr;
 use std::{iter, mem};
 
 use aoc_2021::errors::{EmptyInputError, ParseDigitError};
-use aoc_2021::extension_traits::binary_heap::BinaryHeapExt;
+use aoc_2021::extension_traits::{binary_heap::BinaryHeapExt, u8::U8Ext};
 use aoc_2021::pair::{greater::Greater, Pair};
 use aoc_2021::{define_error, Puzzle};
 
@@ -35,13 +35,10 @@ impl FromStr for Row {
     type Err = ParseDigitError;
 
     fn from_str(l: &str) -> Result<Self, Self::Err> {
-        // CAST: a u32 is guaranteed to fit in a usize; thus, it is fine to cast.
-        let parse_char = |c: char| {
-            c.to_digit(10)
-                .map_or(Err(ParseDigitError), |v| Ok(Some(v as usize)))
-        };
+        // CAST: a u8 is guaranteed to fit in a usize.
+        let parse_byte = |b: u8| b.parse_digit().map(|d| Some(d as usize));
 
-        let row = l.chars().map(parse_char).collect::<Result<_, _>>()?;
+        let row = l.bytes().map(parse_byte).collect::<Result<_, _>>()?;
 
         Ok(Self(row))
     }

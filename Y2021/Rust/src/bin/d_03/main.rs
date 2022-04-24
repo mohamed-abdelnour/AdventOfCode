@@ -127,7 +127,7 @@ impl Puzzle for D03 {
 
     fn solve(&self, input: String) -> anyhow::Result<Self::Solution> {
         let first = input.lines().next().ok_or(EmptyInputError)?;
-        let last_index: u32 = (first.chars().count() - 1).try_into()?;
+        let last_index: u32 = (first.bytes().count() - 1).try_into()?;
         let input = input
             .lines()
             .map(|s| u32::from_str_radix(s, 2))
