@@ -98,11 +98,11 @@ impl FromStr for Instruction {
 /// The possible states for a position on the sheet.
 #[derive(Clone, Debug, Eq, PartialEq)]
 enum Position {
-    /// A position marked with a dot.
-    Dot,
-
     /// An empty, unmarked position.
     Unmarked,
+
+    /// A position marked with a dot.
+    Dot,
 }
 
 impl Default for Position {
