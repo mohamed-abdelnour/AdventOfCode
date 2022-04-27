@@ -1,0 +1,71 @@
+[package]
+name = "aoc_2021"
+version = "0.1.0"
+edition = "2021"
+
+[dependencies]
+anyhow = "1.0.57"
+
+[dev-dependencies]
+criterion = "0.3.5"
+utils = { path = "../utils", version = "0.1.0" }
+
+[lib]
+bench = false
+
+[[bench]]
+name = "d_01"
+harness = false
+
+[[bench]]
+name = "d_02"
+harness = false
+
+[[bench]]
+name = "d_03"
+harness = false
+
+[[bench]]
+name = "d_04"
+harness = false
+
+[[bench]]
+name = "d_05"
+harness = false
+
+[[bench]]
+name = "d_06"
+harness = false
+
+[[bench]]
+name = "d_07"
+harness = false
+
+[[bench]]
+name = "d_08"
+harness = false
+
+[[bench]]
+name = "d_09"
+harness = false
+
+[[bench]]
+name = "d_10"
+harness = false
+
+[[bench]]
+name = "d_11"
+harness = false
+
+[[bench]]
+name = "d_12"
+harness = false
+
+[[bench]]
+name = "d_13"
+harness = false
+
+[[bench]]
+name = "d_14"
+harness = false
+
