@@ -2,7 +2,8 @@
 
 //! Basic library function for [AoC 2021](https://adventofcode.com/2021/).
 
-use std::fmt::Display;
+use std::fmt::{Debug, Display};
+use std::path::Path;
 use std::{env, fs};
 
 /// A module providing an interface for bit operations.
@@ -31,12 +32,34 @@ pub mod search;
 pub mod transpose;
 
 /// An interface for AoC puzzles.
-pub trait Puzzle {
+pub trait Puzzle: Sized {
     /// The type of the solution.
     type Solution: Solution;
 
-    /// Tries to solve this puzzle.
+    /// Tries to solve this puzzle given the puzzle input, `input`.
     fn solve(&self, input: String) -> anyhow::Result<Self::Solution>;
+
+    /// Reads the puzzle input from the file at `path` and tries to solve the puzzle.
+    fn solve_file(&self, path: impl AsRef<Path> + Display) -> anyhow::Result<Self::Solution> {
+        let input = fs::read_to_string(&path)?;
+        self.solve(input)
+    }
+
+    /// Calls `self.solve_file` with `path` and outputs the solution if it succeeds.
+    fn run_file(&self, path: impl AsRef<Path> + Display) -> anyhow::Result<()> {
+        self.solve_file(&path).map(|solution| {
+            println!("Input file: {path}");
+            solution.print();
+        })
+    }
+
+    /// The main entry point for the puzzle binaries: reads file paths from the command line calls
+    /// `self.run_file` for each one.
+    fn run(&self) -> anyhow::Result<()> {
+        env::args()
+            .skip(1)
+            .try_for_each(|arg| self.run_file(arg).map(drop))
+    }
 }
 
 #[derive(Debug, Default)]
@@ -89,23 +112,12 @@ macro_rules! repeat_macro {
     };
 }
 
-/// An entry point for the puzzle binaries.
-pub fn run(puzzle: impl Puzzle) -> anyhow::Result<()> {
-    env::args().skip(1).try_for_each(|arg| {
-        let input = fs::read_to_string(&arg)?;
-        let solution = puzzle.solve(input)?;
-        println!("Input file: {arg}");
-        solution.print();
-        Ok(())
-    })
-}
-
 /// Defines `main` for the puzzle binaries.
 #[macro_export]
 macro_rules! main {
     ($puzzle:ident) => {
         fn main() -> anyhow::Result<()> {
-            $crate::run($puzzle)
+            $puzzle.run()
         }
     };
 }
