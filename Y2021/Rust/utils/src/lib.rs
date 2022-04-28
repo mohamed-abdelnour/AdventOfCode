@@ -1,9 +1,10 @@
 use std::error::Error;
 use std::io::ErrorKind;
-use std::path::PathBuf;
+use std::path::{Path, PathBuf};
 use std::{env, io};
 
 const CARGO_LOCK: &str = "Cargo.lock";
+const INPUTS: &str = "Inputs";
 
 pub fn project_root() -> io::Result<PathBuf> {
     for ancestor in env::current_dir()?.ancestors() {
@@ -15,6 +16,14 @@ pub fn project_root() -> io::Result<PathBuf> {
     }
 
     Err(ErrorKind::NotFound.into())
+}
+
+pub fn input_dir(p: impl AsRef<Path>) -> io::Result<PathBuf> {
+    project_root().and_then(|root| {
+        root.parent()
+            .ok_or_else(|| ErrorKind::NotFound.into())
+            .map(|parent| parent.join(INPUTS).join(p))
+    })
 }
 
 /// Display the error variant of a result.

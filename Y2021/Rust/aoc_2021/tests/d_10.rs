@@ -5,10 +5,10 @@ use util::PuzzleExt;
 
 #[test]
 fn sample() {
-    D10.check("../../Inputs/D10/sample.txt", [26_397, 288_957]);
+    D10.check("D10/sample.txt", [26_397, 288_957]);
 }
 
 #[test]
 fn input() {
-    D10.check("../../Inputs/D10/input.txt", [364_389, 2_870_201_088]);
+    D10.check("D10/input.txt", [364_389, 2_870_201_088]);
 }

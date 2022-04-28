@@ -33,7 +33,7 @@ fn sample() {
 
     let overlaps = 17;
     let code = grid(CODE);
-    D13.check("../../Inputs/D13/sample.txt", Solution { overlaps, code });
+    D13.check("D13/sample.txt", Solution { overlaps, code });
 }
 
 #[test]
@@ -48,5 +48,5 @@ fn input() {
 
     let overlaps = 607;
     let code = grid(CODE);
-    D13.check("../../Inputs/D13/input.txt", Solution { overlaps, code });
+    D13.check("D13/input.txt", Solution { overlaps, code });
 }

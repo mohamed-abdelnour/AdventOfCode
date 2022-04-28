@@ -2,13 +2,15 @@ use std::fmt::Debug;
 use std::path::Path;
 
 use aoc_2021::Puzzle;
+use utils::input_dir;
 
 pub trait PuzzleExt: Sized + Puzzle {
     fn check(self, path: impl AsRef<Path>, expected: Self::Solution)
     where
         Self::Solution: Debug + PartialEq<Self::Solution>,
     {
-        assert_eq!(self.solve_file(path).unwrap(), expected);
+        let file = input_dir(path).unwrap();
+        assert_eq!(self.solve_file(file).unwrap(), expected);
     }
 }
 

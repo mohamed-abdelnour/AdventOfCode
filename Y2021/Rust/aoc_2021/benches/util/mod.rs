@@ -1,6 +1,6 @@
 macro_rules! benchmark {
     ($module:ident::$puzzle:ident) => {
-        use std::env;
+        use std::path::Path;
 
         use criterion::Criterion;
 
@@ -8,14 +8,10 @@ macro_rules! benchmark {
         use aoc_2021::Puzzle;
 
         pub fn $module(c: &mut Criterion) {
-            utils::project_root()
-                .and_then(env::set_current_dir)
-                .unwrap();
+            let input = Path::new(stringify!($puzzle)).join("input.txt");
+            let file = &*utils::input_dir(input).unwrap();
 
-            c.bench_function(stringify!($module), |b| {
-                let file = &*format!("../Inputs/{}/input.txt", stringify!($puzzle));
-                b.iter(|| $puzzle.solve_file(file))
-            });
+            c.bench_function(stringify!($module), |b| b.iter(|| $puzzle.solve_file(file)));
         }
 
         criterion::criterion_group!(benches, $module);
