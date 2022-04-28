@@ -49,7 +49,7 @@ pub trait Puzzle: Sized {
     fn solve(&self, input: String) -> anyhow::Result<Self::Solution>;
 
     /// Reads the puzzle input from the file at `path` and tries to solve the puzzle.
-    fn solve_file(&self, path: impl AsRef<Path> + Display) -> anyhow::Result<Self::Solution> {
+    fn solve_file(&self, path: impl AsRef<Path>) -> anyhow::Result<Self::Solution> {
         let input = fs::read_to_string(&path)?;
         self.solve(input)
     }
