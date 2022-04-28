@@ -1,4 +1,21 @@
 use std::error::Error;
+use std::io::ErrorKind;
+use std::path::PathBuf;
+use std::{env, io};
+
+const CARGO_LOCK: &str = "Cargo.lock";
+
+pub fn project_root() -> io::Result<PathBuf> {
+    for ancestor in env::current_dir()?.ancestors() {
+        for dir in ancestor.read_dir()?.flatten() {
+            if dir.file_name() == CARGO_LOCK {
+                return Ok(ancestor.into());
+            }
+        }
+    }
+
+    Err(ErrorKind::NotFound.into())
+}
 
 /// Display the error variant of a result.
 pub trait DisplayPanic<T, E> {
