@@ -22,6 +22,9 @@ use integer::Integer;
 /// A module providing iterators.
 pub mod iterator;
 
+/// A module that "turns" `std::collections::BinaryHeap` into a min-heap.
+pub mod min_heap;
+
 /// A module that defines a generic, homogeneous pair type.
 pub mod pair;
 
