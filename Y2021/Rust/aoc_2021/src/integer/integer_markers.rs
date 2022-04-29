@@ -1,5 +1,5 @@
 use std::fmt::{Debug, Display};
-use std::ops::{Add, AddAssign, BitAnd, Shr, Sub};
+use std::ops::{Add, AddAssign, BitAnd, Div, Rem, Shr, Sub};
 
 pub trait IntegerMarker:
     Eq
@@ -13,6 +13,8 @@ pub trait IntegerMarker:
     + Sized
     + Add<Output = Self>
     + BitAnd<Output = Self>
+    + Div<Output = Self>
+    + Rem<Output = Self>
     + Shr<Output = Self>
     + Sub<Output = Self>
     + AddAssign

@@ -8,6 +8,9 @@ use integer_markers::IntegerMarker;
 mod integer_pass_through;
 use integer_pass_through::IntegerPassThrough;
 
+/// A convenience module for getting both `std::ops::Div` and `std::ops::Rem`.
+pub mod div_rem;
+
 /// An interface for integral types.
 pub trait Integer: IntegerMarker + IntegerPassThrough {
     /// Returns an iterator over the two numbers adjacent to `self`.
