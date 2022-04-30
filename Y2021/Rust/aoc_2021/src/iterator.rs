@@ -35,12 +35,11 @@ mod tests {
             .collect::<Result<Vec<usize>, _>>()
             .unwrap();
 
-        let right: [usize; 2] = array
+        let Array(right) = array
             .iter()
             .map(|s| s.parse())
             .collect::<Result<Array<usize, 2>, _>>()
-            .unwrap()
-            .0;
+            .unwrap();
 
         assert_eq!([0, 1], right);
         assert_eq!(left, right);

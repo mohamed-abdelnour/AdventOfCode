@@ -94,9 +94,9 @@ impl Simulation {
 
     /// Steps the simulation.
     fn step(&mut self) {
-        let size = self.size;
-        (0..size.0)
-            .flat_map(|row| iter::repeat(row).zip(0..size.1))
+        let size @ Pair(r, c) = self.size;
+        (0..r)
+            .flat_map(|row| iter::repeat(row).zip(0..c))
             .map(Pair::from)
             .for_each(|position| {
                 if self.flashes(position) {

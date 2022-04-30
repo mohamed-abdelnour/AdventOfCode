@@ -157,7 +157,7 @@ impl FromStr for Digits {
     fn from_str(ds: &str) -> Result<Self, Self::Err> {
         let mut critical: Critical = Default::default();
 
-        let digits = ds
+        let Array(digits) = ds
             .split_ascii_whitespace()
             .map(|digit| -> Result<_, ParseSegmentError> {
                 let Digit(digit) = digit.parse()?;
@@ -171,8 +171,7 @@ impl FromStr for Digits {
 
                 Ok(digit)
             })
-            .collect::<Result<Array<_, DIGITS>, _>>()?
-            .0;
+            .collect::<Result<Array<_, DIGITS>, _>>()?;
 
         Ok(Self { digits, critical })
     }
@@ -293,7 +292,7 @@ impl FromStr for Output {
     fn from_str(os: &str) -> Result<Self, Self::Err> {
         let mut solution: Pair<usize> = Default::default();
 
-        let output = os
+        let Array(output) = os
             .split_ascii_whitespace()
             .map(|digit| -> Result<_, ParseSegmentError> {
                 let Digit(digit) = digit.parse()?;
@@ -305,8 +304,7 @@ impl FromStr for Output {
 
                 Ok(digit)
             })
-            .collect::<Result<Array<_, OUTPUT>, _>>()?
-            .0;
+            .collect::<Result<Array<_, OUTPUT>, _>>()?;
 
         Ok(Self { output, solution })
     }

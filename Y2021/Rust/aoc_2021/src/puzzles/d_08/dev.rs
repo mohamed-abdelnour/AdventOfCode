@@ -20,7 +20,7 @@ const DISPLAY: [[usize; SEGMENTS]; DIGITS] = [
 
 /// Encodes each digit and finds the number of ones per encoded segment.
 pub fn encode() {
-    let encoded = DISPLAY
+    let Array(encoded) = DISPLAY
         .iter()
         .enumerate()
         .map(|(digit, row)| {
@@ -29,17 +29,15 @@ pub fn encode() {
             println!("{enc} => {digit},");
             enc
         })
-        .collect::<Array<_, DIGITS>>()
-        .0;
+        .collect::<Array<_, DIGITS>>();
 
     println!();
 
-    let ones = encoded
+    let Array(ones) = encoded
         .bit_transpose::<SEGMENTS>()
         .into_iter()
         .map(usize::count_ones)
-        .collect::<Array<_, SEGMENTS>>()
-        .0;
+        .collect::<Array<_, SEGMENTS>>();
 
     println!("ones: {:?}", ones);
 }
