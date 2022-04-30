@@ -115,7 +115,7 @@ struct Graph {
     /// The size of the entire map.
     scaled: u16,
 
-    /// A heap (priority queue) that is used to extract the lowest-risk neighbour.
+    /// A heap that is used to extract the lowest-risk neighbour.
     heap: MinHeap<Node>,
 }
 
