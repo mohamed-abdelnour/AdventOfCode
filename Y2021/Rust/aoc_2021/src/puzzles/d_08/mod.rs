@@ -130,7 +130,7 @@ impl FromStr for Digit {
 ///
 /// These are mapped as follows:
 ///
-/// ```txt
+/// ```text
 /// 2 ones => 1,
 /// 3 ones => 7,
 /// 4 ones => 4,
