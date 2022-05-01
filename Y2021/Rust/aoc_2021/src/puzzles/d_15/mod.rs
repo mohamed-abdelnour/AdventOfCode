@@ -18,6 +18,9 @@ define_error!(
     "there is no possible path from the top left to the bottom right of the map"
 );
 
+/// The minimum risk level.
+const MIN: u16 = 1;
+
 /// The maximum risk level.
 const MAX: u16 = 9;
 
@@ -125,10 +128,9 @@ impl Graph {
         let r = DivRem::new(r, self.size);
         let c = DivRem::new(c, self.size);
 
-        match self.nodes[usize::from(r.rem)][usize::from(c.rem)] + r.div + c.div {
-            MAX => MAX,
-            v => v % MAX,
-        }
+        let risk = self.nodes[usize::from(r.rem)][usize::from(c.rem)];
+
+        (risk + r.div + c.div - MIN) % MAX + MIN
     }
 
     /// Returns the lowest total risk of any path from the top left to the bottom right of the map.
