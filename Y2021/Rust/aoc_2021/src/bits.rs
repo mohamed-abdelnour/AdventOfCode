@@ -3,6 +3,9 @@ use std::ops::Not;
 use crate::define_error;
 use crate::integer::repeat_macro_for_integral;
 
+/// A module providing an iterator over the bits in an integer.
+pub mod iterator;
+
 define_error!(ParseBinError, r#"a bit must be either "0" or "1""#);
 
 /// The possible values of a bit.

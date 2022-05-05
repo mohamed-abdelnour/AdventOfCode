@@ -3,35 +3,45 @@ use std::num::TryFromIntError;
 use super::IntegerMarker;
 
 pub trait IntegerPassThrough: IntegerMarker {
-    const MIN: Self;
+    const BITS: u32;
     const MAX: Self;
-    const ZERO: Self;
+    const MIN: Self;
     const ONE: Self;
+    const ZERO: Self;
 
     fn checked_add(self, rhs: Self) -> Option<Self>;
-
     fn checked_sub(self, rhs: Self) -> Option<Self>;
+    fn leading_ones(self) -> u32;
+    fn leading_zeros(self) -> u32;
+    fn rem_euclid(self, rhs: Self) -> Self;
 
     fn try_cast<T: TryInto<Self>>(t: T) -> Result<Self, TryFromIntError> {
         t.try_into().map_err(|_| u8::try_from(-1_i8).unwrap_err())
     }
 }
 
+macro_rules! pass {
+    (<$ty:ty>::$fn:ident(self $(, $arg:ident: $arg_ty:ty)*) -> $return:ty) => {
+        fn $fn(self $(, $arg: $ty)*) -> $return {
+            <$ty>::$fn(self $(, $arg)*)
+        }
+    };
+}
+
 macro_rules! impl_integer_pass_through {
     ($ty:ident) => {
         impl IntegerPassThrough for $ty {
-            const MIN: Self = Self::MIN;
+            const BITS: u32 = Self::BITS;
             const MAX: Self = Self::MAX;
-            const ZERO: Self = 0;
+            const MIN: Self = Self::MIN;
             const ONE: Self = 1;
+            const ZERO: Self = 0;
 
-            fn checked_add(self, rhs: Self) -> Option<Self> {
-                <$ty>::checked_add(self, rhs)
-            }
-
-            fn checked_sub(self, rhs: Self) -> Option<Self> {
-                <$ty>::checked_sub(self, rhs)
-            }
+            pass!(<$ty>::checked_add(self, rhs: Self) -> Option<Self>);
+            pass!(<$ty>::checked_sub(self, rhs: Self) -> Option<Self>);
+            pass!(<$ty>::leading_ones(self) -> u32);
+            pass!(<$ty>::leading_zeros(self) -> u32);
+            pass!(<$ty>::rem_euclid(self, rhs: Self) -> Self);
         }
 
         #[cfg(test)]

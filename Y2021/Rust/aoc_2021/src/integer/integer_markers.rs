@@ -1,5 +1,7 @@
 use std::fmt::{Debug, Display};
-use std::ops::{Add, AddAssign, BitAnd, Div, Rem, Shr, Sub};
+use std::ops::{Add, AddAssign, BitAnd, Div, Rem, Shl, Shr, ShrAssign, Sub};
+
+use crate::bits::Bit;
 
 pub trait IntegerMarker:
     Eq
@@ -15,9 +17,11 @@ pub trait IntegerMarker:
     + BitAnd<Output = Self>
     + Div<Output = Self>
     + Rem<Output = Self>
+    + Shl<Output = Self>
     + Shr<Output = Self>
     + Sub<Output = Self>
     + AddAssign
+    + ShrAssign
     + TryFrom<u8>
     + TryFrom<u16>
     + TryFrom<u32>
@@ -30,6 +34,8 @@ pub trait IntegerMarker:
     + TryFrom<i64>
     + TryFrom<i128>
     + TryFrom<isize>
+    + From<Bit>
+    + TryInto<Bit>
 {
 }
 
