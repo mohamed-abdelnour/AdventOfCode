@@ -69,15 +69,11 @@ macro_rules! impl_integer_tests {
                 Adjacent::from(n).collect()
             }
 
-            fn check<N>()
-            where
-                N: Integer + TryFrom<u8>,
-                N::Error: std::fmt::Debug,
-            {
+            fn check<N: Integer>() {
                 assert_eq!(get_adjacent(N::MIN), [N::MIN + N::ONE]);
                 assert_eq!(get_adjacent(N::MAX), [N::MAX - N::ONE]);
 
-                let two = N::try_from(2).unwrap();
+                let two = N::try_cast(2_u8).unwrap();
 
                 assert_eq!(get_adjacent(N::MIN + N::ONE), [N::MIN, N::MIN + two]);
                 assert_eq!(get_adjacent(N::MAX - N::ONE), [N::MAX - two, N::MAX]);

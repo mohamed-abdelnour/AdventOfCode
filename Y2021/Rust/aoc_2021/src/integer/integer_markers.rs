@@ -18,6 +18,18 @@ pub trait IntegerMarker:
     + Shr<Output = Self>
     + Sub<Output = Self>
     + AddAssign
+    + TryFrom<u8>
+    + TryFrom<u16>
+    + TryFrom<u32>
+    + TryFrom<u64>
+    + TryFrom<u128>
+    + TryFrom<usize>
+    + TryFrom<i8>
+    + TryFrom<i16>
+    + TryFrom<i32>
+    + TryFrom<i64>
+    + TryFrom<i128>
+    + TryFrom<isize>
 {
 }
 
