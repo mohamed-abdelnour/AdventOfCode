@@ -1,2 +1,2 @@
 [workspace]
-members = [ "aoc_2021", "binary", "utils" ]
+members = [ "aoc_2021", "utils" ]
