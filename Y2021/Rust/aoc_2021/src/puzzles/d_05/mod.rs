@@ -3,12 +3,9 @@
 
 //! [Day 05.](https://adventofcode.com/2021/day/5)
 
-use std::num::TryFromIntError;
-use std::str::FromStr;
+use std::{num::TryFromIntError, str::FromStr};
 
-use crate::integer::Integer;
-use crate::pair::Pair;
-use crate::{define_error, Puzzle};
+use crate::{define_error, integer::Integer, pair::Pair, Puzzle};
 
 define_error!(
     PositionFormatError,

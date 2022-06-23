@@ -3,14 +3,15 @@
 
 //! [Day 09.](https://adventofcode.com/2021/day/9)
 
-use std::collections::BinaryHeap;
-use std::str::FromStr;
-use std::{iter, mem};
+use std::{collections::BinaryHeap, iter, mem, str::FromStr};
 
-use crate::errors::{EmptyInputError, ParseDigitError};
-use crate::extension_traits::{binary_heap::BinaryHeapExt, u8::U8Ext};
-use crate::pair::{greater::Greater, Pair};
-use crate::{define_error, Puzzle};
+use crate::{
+    define_error,
+    errors::{EmptyInputError, ParseDigitError},
+    extension_traits::{binary_heap::BinaryHeapExt, u8::U8Ext},
+    pair::{greater::Greater, Pair},
+    Puzzle,
+};
 
 define_error!(NotEnoughBasinsError, "less then 3 basins were found");
 

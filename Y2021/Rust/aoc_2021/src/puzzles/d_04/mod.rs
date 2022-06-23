@@ -3,14 +3,9 @@
 
 //! [Day 04.](https://adventofcode.com/2021/day/4)
 
-use std::collections::HashMap;
-use std::num::ParseIntError;
-use std::ops::ControlFlow;
-use std::str::FromStr;
+use std::{collections::HashMap, num::ParseIntError, ops::ControlFlow, str::FromStr};
 
-use crate::extension_traits::str::StrExt;
-use crate::pair::Pair;
-use crate::{define_error, Puzzle};
+use crate::{define_error, extension_traits::str::StrExt, pair::Pair, Puzzle};
 
 define_error!(BingoFormatError, "did not find a blank line");
 

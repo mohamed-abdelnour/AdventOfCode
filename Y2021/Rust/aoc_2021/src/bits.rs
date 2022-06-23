@@ -1,7 +1,6 @@
 use std::ops::Not;
 
-use crate::define_error;
-use crate::integer::repeat_macro_for_integral;
+use crate::{define_error, integer::repeat_macro_for_integral};
 
 /// A module providing an iterator over the bits in an integer.
 pub mod iterator;

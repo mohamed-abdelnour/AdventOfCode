@@ -1,5 +1,4 @@
-use std::cmp::Reverse;
-use std::collections::BinaryHeap;
+use std::{cmp::Reverse, collections::BinaryHeap};
 
 /// A wrapper around `std::collections::BinaryHeap` that "turns" it into a min-heap.
 #[derive(Debug, Default)]

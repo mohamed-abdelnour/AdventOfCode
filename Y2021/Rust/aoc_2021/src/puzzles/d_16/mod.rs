@@ -5,10 +5,13 @@
 
 use std::str::FromStr;
 
-use crate::bits::{iterator::BitIter, Bit};
-use crate::errors::EmptyInputError;
-use crate::integer::Integer;
-use crate::{define_error, Puzzle};
+use crate::{
+    bits::{iterator::BitIter, Bit},
+    define_error,
+    errors::EmptyInputError,
+    integer::Integer,
+    Puzzle,
+};
 
 /// The number of bits used to represent a hexadecimal digit.
 const BITS: u8 = 4;

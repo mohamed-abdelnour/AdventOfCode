@@ -3,12 +3,17 @@
 
 //! [Day 13.](https://adventofcode.com/2021/day/13)
 
-use std::collections::HashSet;
-use std::str::{FromStr, Lines};
-use std::{fmt, mem};
+use std::{
+    collections::HashSet,
+    fmt, mem,
+    str::{FromStr, Lines},
+};
 
-use crate::extension_traits::{str::StrExt, vec::VecExt};
-use crate::{define_error, Puzzle, SolutionMarker};
+use crate::{
+    define_error,
+    extension_traits::{str::StrExt, vec::VecExt},
+    Puzzle, SolutionMarker,
+};
 
 /// A dot on the paper.
 pub const DOT: char = '\u{2588}';

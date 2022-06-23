@@ -1,7 +1,10 @@
-use std::error::Error;
-use std::io::ErrorKind;
-use std::path::{Path, PathBuf};
-use std::{env, io};
+use std::{
+    env,
+    error::Error,
+    io,
+    io::ErrorKind,
+    path::{Path, PathBuf},
+};
 
 const CARGO_LOCK: &str = "Cargo.lock";
 const INPUTS: &str = "Inputs";
@@ -41,8 +44,7 @@ impl<T, E: Error> DisplayPanic<T, E> for Result<T, E> {
 
 #[cfg(test)]
 mod tests {
-    use std::error::Error;
-    use std::fmt;
+    use std::{error::Error, fmt};
 
     use super::*;
 

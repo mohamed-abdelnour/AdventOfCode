@@ -1,5 +1,7 @@
-use std::fmt::{Debug, Display};
-use std::ops::{Add, AddAssign, BitAnd, Div, Rem, Shl, Shr, ShrAssign, Sub};
+use std::{
+    fmt::{Debug, Display},
+    ops::{Add, AddAssign, BitAnd, Div, Rem, Shl, Shr, ShrAssign, Sub},
+};
 
 use crate::bits::Bit;
 

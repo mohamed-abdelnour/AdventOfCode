@@ -5,11 +5,14 @@
 
 use std::str::FromStr;
 
-use crate::bits::{Bit, Bits};
-use crate::iterator::Array;
-use crate::pair::Pair;
-use crate::transpose::ArrayBitTranspose;
-use crate::{define_error, Puzzle};
+use crate::{
+    bits::{Bit, Bits},
+    define_error,
+    iterator::Array,
+    pair::Pair,
+    transpose::ArrayBitTranspose,
+    Puzzle,
+};
 
 /// A helper module that was used to encode each digit, and find the number of ones per encoded
 /// digit. This is kept only for reference, and is not included in the resulting binary when

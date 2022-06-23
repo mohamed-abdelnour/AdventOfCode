@@ -1,8 +1,9 @@
-use std::iter;
-use std::ops::{Add, AddAssign, Sub, SubAssign};
+use std::{
+    iter,
+    ops::{Add, AddAssign, Sub, SubAssign},
+};
 
-use crate::integer::Integer;
-use crate::repeat_macro;
+use crate::{integer::Integer, repeat_macro};
 
 /// A module providing an interface for finding the greatest of two pairs.
 pub mod greater;

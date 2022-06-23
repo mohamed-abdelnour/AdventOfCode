@@ -3,13 +3,14 @@
 
 //! [Day 11.](https://adventofcode.com/2021/day/11)
 
-use std::str::FromStr;
-use std::{iter, mem};
+use std::{iter, mem, str::FromStr};
 
-use crate::errors::EmptyInputError;
-use crate::extension_traits::u8::U8Ext;
-use crate::pair::{greater::Greater, Pair};
-use crate::Puzzle;
+use crate::{
+    errors::EmptyInputError,
+    extension_traits::u8::U8Ext,
+    pair::{greater::Greater, Pair},
+    Puzzle,
+};
 
 /// The minimum energy level an octopus can have. This is `1` not `0` because an energy level of
 /// `0` is represented by `Octopus::Flashed(_)`.

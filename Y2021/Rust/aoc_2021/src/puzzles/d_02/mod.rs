@@ -5,8 +5,7 @@
 
 use std::str::FromStr;
 
-use crate::pair::Pair;
-use crate::Puzzle;
+use crate::{pair::Pair, Puzzle};
 
 /// A module for errors that can arise on parsing a command.
 mod errors;

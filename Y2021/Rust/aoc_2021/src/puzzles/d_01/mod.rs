@@ -3,8 +3,7 @@
 
 //! [Day 01.](https://adventofcode.com/2021/day/1)
 
-use crate::errors::EmptyInputError;
-use crate::Puzzle;
+use crate::{errors::EmptyInputError, Puzzle};
 
 /// An accumulator of the number of times the measurements increase.
 #[derive(Debug, Default)]

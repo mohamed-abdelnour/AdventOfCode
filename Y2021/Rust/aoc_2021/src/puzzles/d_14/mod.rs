@@ -3,13 +3,9 @@
 
 //! [Day 14.](https://adventofcode.com/2021/day/14)
 
-use std::array::TryFromSliceError;
-use std::collections::HashMap;
-use std::mem;
-use std::str::FromStr;
+use std::{array::TryFromSliceError, collections::HashMap, mem, str::FromStr};
 
-use crate::extension_traits::str::StrExt;
-use crate::{define_error, Puzzle};
+use crate::{define_error, extension_traits::str::StrExt, Puzzle};
 
 /// Apply 10 steps for part 1.
 const BREAK_POINT_1: u8 = 10;

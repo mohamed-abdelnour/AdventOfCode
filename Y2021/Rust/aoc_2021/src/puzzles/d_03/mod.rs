@@ -3,13 +3,14 @@
 
 //! [Day 03.](https://adventofcode.com/2021/day/3)
 
-use std::convert::identity;
-use std::ops::Not;
+use std::{convert::identity, ops::Not};
 
-use crate::bits::{Bit, Bits};
-use crate::errors::EmptyInputError;
-use crate::pair::Pair;
-use crate::Puzzle;
+use crate::{
+    bits::{Bit, Bits},
+    errors::EmptyInputError,
+    pair::Pair,
+    Puzzle,
+};
 
 /// A counter for the number of zeros and that of ones, respectively.
 #[derive(Debug, Default)]

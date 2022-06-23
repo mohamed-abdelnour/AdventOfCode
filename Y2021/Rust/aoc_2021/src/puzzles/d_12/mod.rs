@@ -3,10 +3,11 @@
 
 //! [Day 12.](https://adventofcode.com/2021/day/12)
 
-use std::collections::hash_map::DefaultHasher;
-use std::collections::{BTreeSet, HashMap, HashSet};
-use std::hash::{Hash, Hasher};
-use std::str::FromStr;
+use std::{
+    collections::{hash_map::DefaultHasher, BTreeSet, HashMap, HashSet},
+    hash::{Hash, Hasher},
+    str::FromStr,
+};
 
 use crate::{define_error, Puzzle};
 

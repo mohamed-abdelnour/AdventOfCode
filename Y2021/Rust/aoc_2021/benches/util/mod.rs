@@ -4,8 +4,7 @@ macro_rules! benchmark {
 
         use criterion::Criterion;
 
-        use aoc_2021::puzzles::$module::$puzzle;
-        use aoc_2021::Puzzle;
+        use aoc_2021::{puzzles::$module::$puzzle, Puzzle};
 
         pub fn $module(c: &mut Criterion) {
             let input = Path::new(stringify!($puzzle)).join("input.txt");

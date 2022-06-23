@@ -3,15 +3,17 @@
 
 //! [Day 15.](https://adventofcode.com/2021/day/15)
 
-use std::cmp::Ordering;
-use std::str::FromStr;
+use std::{cmp::Ordering, str::FromStr};
 
-use crate::errors::ParseDigitError;
-use crate::extension_traits::u8::U8Ext;
-use crate::integer::div_rem::DivRem;
-use crate::min_heap::MinHeap;
-use crate::pair::{greater::Greater, Pair};
-use crate::{define_error, Puzzle};
+use crate::{
+    define_error,
+    errors::ParseDigitError,
+    extension_traits::u8::U8Ext,
+    integer::div_rem::DivRem,
+    min_heap::MinHeap,
+    pair::{greater::Greater, Pair},
+    Puzzle,
+};
 
 define_error!(
     Unreachable,

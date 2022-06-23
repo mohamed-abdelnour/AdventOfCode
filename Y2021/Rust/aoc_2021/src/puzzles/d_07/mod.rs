@@ -5,9 +5,12 @@
 
 use std::cmp::Ordering;
 
-use crate::errors::EmptyInputError;
-use crate::search::{Binary, Search};
-use crate::{define_error, Puzzle};
+use crate::{
+    define_error,
+    errors::EmptyInputError,
+    search::{Binary, Search},
+    Puzzle,
+};
 
 define_error!(NoMinimum, "could not find a unique minimum value");
 

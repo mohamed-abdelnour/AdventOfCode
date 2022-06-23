@@ -3,11 +3,9 @@
 
 //! [Day 06.](https://adventofcode.com/2021/day/6)
 
-use std::collections::VecDeque;
-use std::ops::Range;
+use std::{collections::VecDeque, ops::Range};
 
-use crate::errors::EmptyInputError;
-use crate::Puzzle;
+use crate::{errors::EmptyInputError, Puzzle};
 
 /// The number of possible values a timer can have; the possible values are 0 to 8 (inclusive);
 /// thus, 9 possibilities.

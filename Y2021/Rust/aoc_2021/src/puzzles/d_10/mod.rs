@@ -3,8 +3,10 @@
 
 //! [Day 10.](https://adventofcode.com/2021/day/10)
 
-use std::ops::{ControlFlow, Not};
-use std::str::FromStr;
+use std::{
+    ops::{ControlFlow, Not},
+    str::FromStr,
+};
 
 use crate::{define_error, repeat_macro, Puzzle};
 

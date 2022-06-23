@@ -1,5 +1,4 @@
-use std::fmt::Debug;
-use std::path::Path;
+use std::{fmt::Debug, path::Path};
 
 use aoc_2021::Puzzle;
 use utils::input_dir;

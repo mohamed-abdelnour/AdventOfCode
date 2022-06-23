@@ -2,9 +2,12 @@
 
 //! Basic library function for [AoC 2021](https://adventofcode.com/2021/).
 
-use std::fmt::{Debug, Display};
-use std::path::Path;
-use std::{env, fs};
+use std::{
+    env,
+    fmt::{Debug, Display},
+    fs,
+    path::Path,
+};
 
 /// A module providing an interface for bit operations.
 pub mod bits;
@@ -128,8 +131,7 @@ macro_rules! repeat_macro {
 #[macro_export]
 macro_rules! main {
     ($module:ident::$puzzle:ident) => {
-        use $crate::puzzles::$module::$puzzle;
-        use $crate::Puzzle;
+        use $crate::{puzzles::$module::$puzzle, Puzzle};
 
         fn main() -> $crate::Result<()> {
             $puzzle.run()

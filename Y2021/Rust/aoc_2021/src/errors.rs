@@ -1,5 +1,4 @@
-use std::error::Error;
-use std::fmt;
+use std::{error::Error, fmt};
 
 /// Defines simple error types.
 #[macro_export]
