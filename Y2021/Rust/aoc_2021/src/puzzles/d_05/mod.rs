@@ -23,15 +23,11 @@ type TryFromIntResult<T> = Result<T, TryFromIntError>;
 /// The position of a vent.
 type Point = Pair<i16>;
 
-/// Extension trait to convert a `&str` to a `Pair`.
-trait ToPair {
-    /// Performs the conversion.
-    fn to_pair(&self) -> anyhow::Result<Point>;
-}
+impl FromStr for Point {
+    type Err = anyhow::Error;
 
-impl ToPair for &str {
-    fn to_pair(&self) -> anyhow::Result<Point> {
-        let (x, y) = self.split_once(',').ok_or(PositionFormatError)?;
+    fn from_str(s: &str) -> Result<Self, Self::Err> {
+        let (x, y) = s.split_once(',').ok_or(PositionFormatError)?;
         Ok(Pair(x.parse()?, y.parse()?))
     }
 }
@@ -119,8 +115,8 @@ impl FromStr for Segment {
 
     fn from_str(s: &str) -> Result<Self, Self::Err> {
         let (a, b) = s.split_once(" -> ").ok_or(SegmentFormatError)?;
-        let start = a.to_pair()?;
-        let end = b.to_pair()?;
+        let start = a.parse()?;
+        let end = b.parse()?;
         Ok(Self::new(start, end))
     }
 }
