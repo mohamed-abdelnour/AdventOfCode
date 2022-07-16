@@ -9,36 +9,18 @@ use std::{
     path::Path,
 };
 
-/// A module providing an interface for bit operations.
 pub mod bits;
-
-/// A module providing an interface for dealing with errors.
 pub mod errors;
-
-/// A module providing extension traits.
 pub mod extension_traits;
-
-/// A module providing an interface for integral types.
 pub mod integer;
-use integer::Integer;
-
-/// A module providing iterators.
 pub mod iterator;
-
-/// A module that "turns" `std::collections::BinaryHeap` into a min-heap.
 pub mod min_heap;
-
-/// A module that defines a generic, homogeneous pair type.
 pub mod pair;
-
-/// A module providing an interface for searching over types.
+pub mod puzzles;
 pub mod search;
-
-/// A module providing an interface for transposing matrix-like types.
 pub mod transpose;
 
-/// A module that contains the puzzle solutions.
-pub mod puzzles;
+use integer::Integer;
 
 /// Alias for `anyhow::Error`;
 pub type Error = anyhow::Error;

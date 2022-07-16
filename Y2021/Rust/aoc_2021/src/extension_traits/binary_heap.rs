@@ -1,3 +1,5 @@
+//! Extension to `std::collections::BinaryHeap`.
+
 use std::collections::BinaryHeap;
 
 /// An iterator over `std::collections::BinaryHeap` that returns elements in heap order.

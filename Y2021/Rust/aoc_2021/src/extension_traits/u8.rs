@@ -1,3 +1,5 @@
+//! Extension to the `u8` type.
+
 use crate::errors::ParseDigitError;
 
 /// An extension trait to the `u8` type.

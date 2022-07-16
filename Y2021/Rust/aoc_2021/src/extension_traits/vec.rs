@@ -1,3 +1,5 @@
+//! Extension to `std::vec::Vec`.
+
 /// An extension to `std::vec::Vec`.
 pub trait VecExt<T> {
     /// Ensures `self[index]` would not panic, resizing `self` if needed.

@@ -1,3 +1,5 @@
+//! A module providing an interface for dealing with errors.
+
 use std::{error::Error, fmt};
 
 /// Defines simple error types.

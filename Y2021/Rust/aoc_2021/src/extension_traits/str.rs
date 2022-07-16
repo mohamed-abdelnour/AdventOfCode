@@ -1,3 +1,5 @@
+//! Extension to the `str` type.
+
 /// An extension trait to the `str` type.
 pub trait StrExt {
     /// Returns two of `self`'s line endings.

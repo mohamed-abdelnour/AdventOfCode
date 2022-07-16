@@ -1,4 +1,5 @@
-/// A module providing an iterator over the two numbers adjacent to any integer.
+//! A module providing iterators.
+
 pub mod adjacent;
 
 /// A wrapper around an array that implements `FromIterator<T> where T: Copy + Default`;

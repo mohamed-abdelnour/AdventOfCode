@@ -1,3 +1,5 @@
+//! A convenience module for getting both `std::ops::Div` and `std::ops::Rem`.
+
 use super::Integer;
 
 #[allow(missing_docs)]

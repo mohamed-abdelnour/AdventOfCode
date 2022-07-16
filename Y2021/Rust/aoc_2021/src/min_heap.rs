@@ -1,3 +1,5 @@
+//! A module that "turns" `std::collections::BinaryHeap` into a min-heap.
+
 use std::{cmp::Reverse, collections::BinaryHeap};
 
 /// A wrapper around `std::collections::BinaryHeap` that "turns" it into a min-heap.

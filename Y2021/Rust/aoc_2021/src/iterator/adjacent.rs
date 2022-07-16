@@ -1,3 +1,5 @@
+//! A module providing an iterator over the two numbers adjacent to any integer.
+
 use crate::integer::Integer;
 
 /// An iterator over the two numbers adjacent to any integer.

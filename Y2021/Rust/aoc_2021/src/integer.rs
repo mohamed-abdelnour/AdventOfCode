@@ -1,3 +1,5 @@
+//! A module providing an interface for integral types.
+
 use std::mem;
 
 use crate::iterator::adjacent::Adjacent;
@@ -8,7 +10,6 @@ use integer_markers::IntegerMarker;
 mod integer_pass_through;
 use integer_pass_through::IntegerPassThrough;
 
-/// A convenience module for getting both `std::ops::Div` and `std::ops::Rem`.
 pub mod div_rem;
 
 /// An interface for integral types.

@@ -1,8 +1,9 @@
+//! A module providing an interface for bit operations.
+
 use std::ops::Not;
 
 use crate::{define_error, integer::repeat_macro_for_integral};
 
-/// A module providing an iterator over the bits in an integer.
 pub mod iterator;
 
 define_error!(ParseBinError, r#"a bit must be either "0" or "1""#);

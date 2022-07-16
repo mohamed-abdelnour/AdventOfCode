@@ -1,5 +1,7 @@
 #![allow(missing_docs)]
 
+//! The module that contains the puzzle solutions.
+
 pub mod d_01;
 pub mod d_02;
 pub mod d_03;

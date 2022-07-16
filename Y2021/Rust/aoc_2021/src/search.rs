@@ -1,3 +1,5 @@
+//! A module providing an interface for searching over types.
+
 use std::cmp::Ordering;
 
 /// An interface for searching over types.

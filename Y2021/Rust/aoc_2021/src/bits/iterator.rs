@@ -1,3 +1,5 @@
+//! A module providing an iterator over the bits in an integer.
+
 use std::cmp::Ordering;
 
 use crate::integer::Integer;

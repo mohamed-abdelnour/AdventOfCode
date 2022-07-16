@@ -1,3 +1,5 @@
+//! A module providing an interface for transposing matrix-like types.
+
 use crate::bits::Bits;
 
 /// An interface for transposing arrays of bits.

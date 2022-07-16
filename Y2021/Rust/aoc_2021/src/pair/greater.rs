@@ -1,3 +1,5 @@
+//! A module providing an interface for finding the greatest of two pairs.
+
 use super::Pair;
 
 /// An interface for finding the greatest of two pairs.

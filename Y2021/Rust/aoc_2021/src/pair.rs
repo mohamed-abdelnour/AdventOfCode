@@ -1,3 +1,5 @@
+//! A module that defines a generic, homogeneous pair type.
+
 use std::{
     iter,
     ops::{Add, AddAssign, Sub, SubAssign},
@@ -5,7 +7,6 @@ use std::{
 
 use crate::{integer::Integer, repeat_macro};
 
-/// A module providing an interface for finding the greatest of two pairs.
 pub mod greater;
 
 /// A generic, homogeneous pair type.
