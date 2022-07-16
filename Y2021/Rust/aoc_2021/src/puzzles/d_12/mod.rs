@@ -1,6 +1,3 @@
-#![warn(missing_docs)]
-#![warn(clippy::missing_docs_in_private_items)]
-
 //! [Day 12.](https://adventofcode.com/2021/day/12)
 
 use std::{

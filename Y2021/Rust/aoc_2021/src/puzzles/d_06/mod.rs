@@ -1,6 +1,3 @@
-#![warn(missing_docs)]
-#![warn(clippy::missing_docs_in_private_items)]
-
 //! [Day 06.](https://adventofcode.com/2021/day/6)
 
 use std::{collections::VecDeque, ops::Range};

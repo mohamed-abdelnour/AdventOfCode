@@ -1,6 +1,3 @@
-#![warn(missing_docs)]
-#![warn(clippy::missing_docs_in_private_items)]
-
 //! [Day 01.](https://adventofcode.com/2021/day/1)
 
 use crate::{errors::EmptyInputError, Puzzle};

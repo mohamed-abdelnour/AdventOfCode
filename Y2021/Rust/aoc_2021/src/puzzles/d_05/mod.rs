@@ -1,6 +1,3 @@
-#![warn(missing_docs)]
-#![warn(clippy::missing_docs_in_private_items)]
-
 //! [Day 05.](https://adventofcode.com/2021/day/5)
 
 use std::{num::TryFromIntError, str::FromStr};

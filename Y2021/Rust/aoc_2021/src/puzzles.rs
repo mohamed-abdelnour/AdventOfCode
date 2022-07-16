@@ -1,4 +1,4 @@
-#![allow(missing_docs)]
+#![warn(clippy::missing_docs_in_private_items)]
 
 //! The module that contains the puzzle solutions.
 

@@ -1,6 +1,3 @@
-#![warn(missing_docs)]
-#![warn(clippy::missing_docs_in_private_items)]
-
 //! [Day 09.](https://adventofcode.com/2021/day/9)
 
 use std::{collections::BinaryHeap, iter, mem, str::FromStr};

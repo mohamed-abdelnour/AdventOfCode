@@ -1,6 +1,3 @@
-#![warn(missing_docs)]
-#![warn(clippy::missing_docs_in_private_items)]
-
 //! [Day 14.](https://adventofcode.com/2021/day/14)
 
 use std::{array::TryFromSliceError, collections::HashMap, mem, str::FromStr};

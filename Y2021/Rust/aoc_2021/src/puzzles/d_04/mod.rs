@@ -1,6 +1,3 @@
-#![warn(missing_docs)]
-#![warn(clippy::missing_docs_in_private_items)]
-
 //! [Day 04.](https://adventofcode.com/2021/day/4)
 
 use std::{collections::HashMap, num::ParseIntError, ops::ControlFlow, str::FromStr};

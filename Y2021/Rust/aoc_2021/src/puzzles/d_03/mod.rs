@@ -1,6 +1,3 @@
-#![warn(missing_docs)]
-#![warn(clippy::missing_docs_in_private_items)]
-
 //! [Day 03.](https://adventofcode.com/2021/day/3)
 
 use std::{convert::identity, ops::Not};

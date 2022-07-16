@@ -1,6 +1,3 @@
-#![warn(missing_docs)]
-#![warn(clippy::missing_docs_in_private_items)]
-
 //! [Day 11.](https://adventofcode.com/2021/day/11)
 
 use std::{iter, mem, str::FromStr};
